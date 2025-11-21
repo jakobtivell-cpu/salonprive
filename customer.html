@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Renault Nordic Salon Privé – Kundvy</title>
+  <style>
+    :root {
+      --renault-black: #191c1f;
+      --renault-yellow: #ffd200;
+      --bg-dark: #050608;
+      --card-bg: #12141a;
+      --card-elevated: #181b22;
+      --border-subtle: #2a2f3a;
+      --text-main: #f5f7fa;
+      --text-muted: #a4a9b6;
+      --danger: #c62828;
+      --success: #2e7d32;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Renault Life", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top, #202430 0, #050608 45%, #000 100%);
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      max-width: 1200px;
+      padding: 32px 16px 40px;
+      margin: 0 auto;
+    }
+
+    header.hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .hero-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px #000;
+    }
+
+    .hero-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-branding-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-branding-text span {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .hero-branding-text strong {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero-title-block {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .hero-title-block h1 {
+      margin: 0 0 4px;
+      font-size: clamp(24px, 3.6vw, 30px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero-title-block p {
+      margin: 0;
+      color: var(--text-muted);
+      max-width: 520px;
+      font-size: 14px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 210, 0, 0.08);
+      border: 1px solid rgba(255, 210, 0, 0.35);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 8px;
+    }
+
+    .hero-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--renault-yellow);
+    }
+
+    .hero-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-nav a {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.35);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .hero-nav a:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    main {
+      margin-top: 8px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #232733 0, #12141a 45%, #0b0d11 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+    }
+
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    @media (min-width: 900px) {
+      .vehicle-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+
+    .vehicle-card {
+      background: linear-gradient(145deg, var(--card-bg), var(--card-elevated));
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .vehicle-media {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vehicle-media img {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.05);
+      transition: transform 0.22s ease;
+    }
+
+    .vehicle-card:hover .vehicle-media img {
+      transform: scale(1.03);
+    }
+
+    .vehicle-media-tag {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(6px);
+      color: #f5f5f5;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .vehicle-body {
+      padding: 14px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vehicle-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .vehicle-title {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .vehicle-subtitle {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .vehicle-price {
+      font-size: 17px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .vehicle-price small {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .vehicle-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .vehicle-specs span {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .customer-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(8, 9, 12, 0.92);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease,
+        opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--renault-yellow), #ffe55d);
+      color: #151515;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      color: var(--text-main);
+      font-size: 11px;
+      padding-inline: 10px;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .helper-text {
+      margin: 4px 0 0;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: left;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="hero">
+      <div class="hero-left">
+        <div class="hero-logo">
+          <img
+            src="https://static.vecteezy.com/ti/gratis-vektor/p1/20500058-renault-varumarke-logotyp-bil-symbol-med-namn-gul-design-franska-bil-vektor-illustration-med-svart-bakgrund-gratis-vector.jpg"
+            alt="Renault-logotyp"
+          />
+        </div>
+        <div class="hero-branding-text">
+          <span>Rn Nordic Ab</span>
+          <strong>Renault Nordic</strong>
+        </div>
+      </div>
+      <div class="hero-title-block">
+        <div class="hero-pill">
+          <span class="hero-pill-dot"></span>
+          <span>Salon Privé – Kundvy</span>
+        </div>
+        <h1>Utvalda bilar</h1>
+        <p>
+          En kuraterad samling Renault-modeller för Salon Privé – för dig som gillar
+          tydlighet, prisbild och kort väg till affär.
+        </p>
+      </div>
+      <nav class="hero-nav">
+        <a href="landing.html">Portalstart</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="card" aria-label="Tillgängliga bilar">
+        <h2 style="margin:0 0 4px;font-size:16px;">Tillgängliga fordon</h2>
+        <p class="helper-text">
+          Välj återförsäljare och klicka på <strong>Köp / reservera</strong> för att
+          skicka en intresseanmälan via salongens personal.
+        </p>
+
+        <div class="vehicle-grid">
+          <!-- Bil 1 -->
+          <article class="vehicle-card" data-car-name="Megane E-Tech Electric" data-price="529 900 kr">
+            <div class="vehicle-media">
+              <img
+                src="https://pro.bbcdn.io/ed/eda383b8-39a4-4b1f-bb67-9e52361f13c2?rule=news-large"
+                alt="Renault Megane E-Tech – bild"
+              />
+              <div class="vehicle-media-tag">Elbil • Salon Privé</div>
+            </div>
+            <div class="vehicle-body">
+              <div class="vehicle-header">
+                <div>
+                  <h3 class="vehicle-title">Megane E-Tech Electric EV60</h3>
+                  <p class="vehicle-subtitle">Stockholm • Salon Privé-utställning</p>
+                </div>
+              </div>
+              <div class="vehicle-price">
+                529 900 kr
+                <small>Frånpris inkl. moms, exkl. ev. lokala avtal.</small>
+              </div>
+              <div class="vehicle-specs">
+                <span>EV60 • 220 hk</span>
+                <span>Long Range</span>
+                <span>Pearl White</span>
+              </div>
+
+              <div class="customer-actions">
+                <div>
+                  <label for="dealer-megane">Återförsäljare</label>
+                  <select id="dealer-megane" class="dealer-select">
+                    <option value="">Välj återförsäljare</option>
+                    <option value="Hedin Bil Stockholm">Hedin Bil Stockholm</option>
+                    <option value="Bilia Segeltorp">Bilia Segeltorp</option>
+                    <option value="Brandt Bil Vänersborg">Brandt Bil Vänersborg</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary purchase-btn" type="button">
+                  Köp / reservera
+                </button>
+                <p class="helper-text">
+                  Din återförsäljare kontaktar dig för slutlig offert, inbyte och leveransdatum.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bil 2 -->
+          <article class="vehicle-card" data-car-name="Austral E-Tech Full Hybrid" data-price="439 900 kr">
+            <div class="vehicle-media">
+              <img
+                src="https://www.brandtbil.se/wp-content/uploads/renault-austral-2024-brandt-bil-1170x658.jpg.webp"
+                alt="Renault Austral E-Tech – bild"
+              />
+              <div class="vehicle-media-tag">Hybrid • VIP-visning</div>
+            </div>
+            <div class="vehicle-body">
+              <div class="vehicle-header">
+                <div>
+                  <h3 class="vehicle-title">Austral E-Tech Full Hybrid</h3>
+                  <p class="vehicle-subtitle">Göteborg • Hedin Mobility Group</p>
+                </div>
+              </div>
+              <div class="vehicle-price">
+                439 900 kr
+                <small>Frånpris inkl. moms. Lokala kampanjer kan tillkomma.</small>
+              </div>
+              <div class="vehicle-specs">
+                <span>Full Hybrid</span>
+                <span>4Control Advanced</span>
+                <span>Black Pearl</span>
+              </div>
+
+              <div class="customer-actions">
+                <div>
+                  <label for="dealer-austral">Återförsäljare</label>
+                  <select id="dealer-austral" class="dealer-select">
+                    <option value="">Välj återförsäljare</option>
+                    <option value="Hedin Bil Göteborg Mölndal">Hedin Bil Göteborg Mölndal</option>
+                    <option value="Bilia Sisjön">Bilia Sisjön</option>
+                    <option value="Brandt Bil Uddevalla">Brandt Bil Uddevalla</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary purchase-btn" type="button">
+                  Köp / reservera
+                </button>
+                <p class="helper-text">
+                  Fyll i återförsäljare – salongsvärden hjälper dig med nästa steg direkt.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bil 3 -->
+          <article class="vehicle-card" data-car-name="Arkana E-Tech Hybrid" data-price="389 900 kr">
+            <div class="vehicle-media">
+              <img
+                src="https://cdn.wayke.se/cfit/54463ca0-e476-4864-bae0-c914b4eac342/c63cda6f-14e2-448f-96a6-cd3f2b2c654a?format=jpeg&r=0000000&w=1170"
+                alt="Renault Arkana E-Tech – bild"
+              />
+              <div class="vehicle-media-tag">E-Tech • Begränsat antal</div>
+            </div>
+            <div class="vehicle-body">
+              <div class="vehicle-header">
+                <div>
+                  <h3 class="vehicle-title">Arkana E-Tech Hybrid</h3>
+                  <p class="vehicle-subtitle">Malmö • Privat kundkväll</p>
+                </div>
+              </div>
+              <div class="vehicle-price">
+                389 900 kr
+                <small>Demoexemplar, individuell prissättning kan gälla.</small>
+              </div>
+              <div class="vehicle-specs">
+                <span>E-Tech Hybrid</span>
+                <span>Monaco Blue</span>
+                <span>18" fälgar</span>
+              </div>
+
+              <div class="customer-actions">
+                <div>
+                  <label for="dealer-arkana">Återförsäljare</label>
+                  <select id="dealer-arkana" class="dealer-select">
+                    <option value="">Välj återförsäljare</option>
+                    <option value="Hedin Bil Malmö">Hedin Bil Malmö</option>
+                    <option value="Bilia Lund">Bilia Lund</option>
+                    <option value="Brandt Bil Kristianstad">Brandt Bil Kristianstad</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary purchase-btn" type="button">
+                  Köp / reservera
+                </button>
+                <p class="helper-text">
+                  När du reserverar här får ansvarig säljare en notis via adminpanelen.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 RN Nordic AB – Renault Nordic Salon Privé. Prisuppgifter är indikativa
+      och kan justeras av vald återförsäljare.
+    </footer>
+  </div>
+
+  <script>
+    // Enkel demo: visa en alert med vald bil + återförsäljare
+    document.querySelectorAll(".vehicle-card").forEach((card) => {
+      const btn = card.querySelector(".purchase-btn");
+      const select = card.querySelector(".dealer-select");
+      const carName = card.getAttribute("data-car-name");
+      const price = card.getAttribute("data-price");
+
+      if (!btn || !select) return;
+
+      btn.addEventListener("click", () => {
+        const dealer = select.value;
+        if (!dealer) {
+          alert("Välj återförsäljare innan du reserverar bilen.");
+          return;
+        }
+
+        alert(
+          `Intresseanmälan\n\nBil: ${carName}\nPris (indikativt): ${price}\nÅterförsäljare: ${dealer}\n\nI en skarp version skickas denna information till adminpanelen / CRM.`
+        );
+      });
+    });
+  </script>
+</body>
+</html>
