@@ -176,7 +176,7 @@
       border-radius: var(--radius-lg);
       border: 1px solid rgba(255, 255, 255, 0.06);
       box-shadow: var(--shadow-soft);
-      padding: 20px 18px 22px;
+      padding: 18px 18px 20px;
     }
 
     .admin-header {
@@ -250,9 +250,9 @@
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease,
         opacity 0.15s ease;
@@ -271,132 +271,134 @@
       background: rgba(255, 255, 255, 0.04);
     }
 
-    .vehicle-grid {
+    .btn-danger {
+      background: rgba(198, 40, 40, 0.1);
+      border: 1px solid rgba(198, 40, 40, 0.7);
+      color: #ffcdd2;
+      padding-inline: 10px;
+      font-size: 11px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(198, 40, 40, 0.25);
+    }
+
+    .helper-text {
+      margin: 2px 0 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Tabell-stil */
+    .vehicle-table {
+      margin-top: 6px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(3, 4, 7, 0.9);
+    }
+
+    .vehicle-table-header,
+    .vehicle-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 14px;
-      margin-top: 4px;
+      grid-template-columns: 80px 1.5fr 0.7fr 0.9fr 0.9fr 0.8fr;
+      align-items: center;
+      column-gap: 12px;
     }
 
-    @media (min-width: 900px) {
-      .vehicle-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      }
-    }
-
-    .vehicle-card {
-      background: linear-gradient(145deg, var(--card-bg), var(--card-elevated));
-      border-radius: 16px;
-      border: 1px solid var(--border-subtle);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-
-    .vehicle-media {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .vehicle-media img {
-      display: block;
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      filter: saturate(1.05) contrast(1.05);
-    }
-
-    .vehicle-media-tag {
-      position: absolute;
-      left: 12px;
-      bottom: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.68);
-      backdrop-filter: blur(6px);
-      color: #f5f5f5;
+    .vehicle-table-header {
+      background: rgba(12, 13, 18, 0.98);
+      padding: 8px 12px;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.16em;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .vehicle-body {
-      padding: 12px 14px 13px;
+    .header-cell {
+      white-space: nowrap;
+    }
+
+    .vehicle-row {
+      padding: 8px 12px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(135deg, rgba(8,10,14,0.96), rgba(12,14,19,0.94));
+    }
+
+    .vehicle-row:last-child {
+      border-bottom: none;
+    }
+
+    .vehicle-thumb {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .vehicle-thumb img {
+      width: 64px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .vehicle-model {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 2px;
     }
 
-    .vehicle-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: flex-start;
+    .vehicle-model-main {
+      font-size: 13px;
+      font-weight: 500;
     }
 
-    .vehicle-title {
-      font-size: 15px;
-      margin: 0;
-    }
-
-    .vehicle-subtitle {
-      margin: 2px 0 0;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .vehicle-specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .vehicle-model-sub {
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    .vehicle-specs span {
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+    .vehicle-days,
+    .vehicle-price-cell {
+      font-size: 13px;
     }
 
-    .vehicle-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .vehicle-meta span {
-      opacity: 0.9;
-    }
-
-    .status-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .days-pill {
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      margin-top: 4px;
-    }
-
-    label {
+      justify-content: center;
+      min-width: 52px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
       font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--text-muted);
+      background: rgba(255,255,255,0.02);
     }
 
-    select {
-      padding: 6px 10px;
+    .price-input {
+      width: 100%;
+      max-width: 110px;
+      padding: 4px 8px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(8, 9, 12, 0.92);
+      background: rgba(6, 7, 10, 0.95);
       color: var(--text-main);
       font-size: 12px;
       outline: none;
+    }
+
+    .price-input:focus {
+      border-color: var(--renault-yellow);
+      box-shadow: 0 0 0 1px rgba(255,210,0,0.45);
+    }
+
+    .status-cell {
+      display: flex;
+      justify-content: flex-start;
     }
 
     .funnel-status {
@@ -407,6 +409,8 @@
       letter-spacing: 0.18em;
       border: 1px solid transparent;
       white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
     }
 
     .funnel-status--unsold {
@@ -439,10 +443,9 @@
       color: #e8f5e9;
     }
 
-    .helper-text {
-      margin: 2px 0 0;
-      font-size: 11px;
-      color: var(--text-muted);
+    .actions-cell {
+      display: flex;
+      justify-content: flex-start;
     }
 
     footer {
@@ -474,10 +477,10 @@
           <span class="hero-pill-dot"></span>
           <span>Salon Privé – Adminpanel</span>
         </div>
-        <h1>Fordon & säljtratt</h1>
+        <h1>Fordon & status</h1>
         <p>
-          Översikt över Salon Privé-fordon med status i säljtratten – från ej såld
-          till registrerad. Uppdatera läget i realtid under eventet.
+          Kompakt översikt över alla Salon Privé-fordon: bild, modell, dagar ute, pris
+          och status i säljtratten – en rad per bil för snabb felsökning.
         </p>
       </div>
       <nav class="hero-nav">
@@ -487,13 +490,13 @@
     </header>
 
     <main>
-      <section class="card" aria-label="Admin – fordonsstatus">
+      <section class="card" aria-label="Admin – fordonslista">
         <div class="admin-header">
           <div class="admin-header-text">
-            <h2>Salon Privé-fordon</h2>
+            <h2>Översikt Salon Privé-fordon</h2>
             <p>
-              Välj status i tratten per bil. Använd samma bilar som i kundvyn för att
-              kunna matcha intresseanmälningar mot affärsläge.
+              Klicka på status-pillret för att växla läge (Ej såld → Såld → Betald → Levererad → Registrerad).
+              Prisfältet är redigerbart per bil.
             </p>
             <div class="admin-badges">
               <div class="badge">
@@ -520,165 +523,131 @@
         </div>
 
         <p class="helper-text">
-          I en skarp version hämtas bilar och status från ett backend/CRM. Här är tre
-          exempelbilar för demo.
+          Demo-data: i en skarp version kommer bilar, pris och status från backend/CRM.
+          Här loggas ändringar av pris och status i webbkonsolen.
         </p>
 
-        <div class="vehicle-grid">
-          <!-- Bil 1 -->
-          <article class="vehicle-card" data-status="unsold">
-            <div class="vehicle-media">
+        <div class="vehicle-table">
+          <div class="vehicle-table-header">
+            <div class="header-cell">Bild</div>
+            <div class="header-cell">Modell</div>
+            <div class="header-cell">Dagar ute</div>
+            <div class="header-cell">Pris</div>
+            <div class="header-cell">Status</div>
+            <div class="header-cell">Åtgärd</div>
+          </div>
+
+          <!-- Rad 1 -->
+          <div class="vehicle-row" data-status="unsold">
+            <div class="vehicle-thumb">
               <img
                 src="https://pro.bbcdn.io/ed/eda383b8-39a4-4b1f-bb67-9e52361f13c2?rule=news-large"
-                alt="Renault Megane E-Tech – bild"
+                alt="Megane E-Tech"
               />
-              <div class="vehicle-media-tag">Megane E-Tech EV60</div>
             </div>
-            <div class="vehicle-body">
-              <div class="vehicle-header">
-                <div>
-                  <h3 class="vehicle-title">Megane E-Tech Electric EV60</h3>
-                  <p class="vehicle-subtitle">Stockholm • Salon Privé-utställning</p>
-                </div>
-                <span class="funnel-status funnel-status--unsold">Ej såld</span>
-              </div>
-
-              <div class="vehicle-specs">
-                <span>EV60 • 220 hk</span>
-                <span>Long Range</span>
-                <span>Pearl White</span>
-              </div>
-
-              <div class="vehicle-meta">
-                <span>Chassinr: DEMO-MEGA-001</span>
-                <span>Frånpris: 529 900 kr</span>
-                <span>Lager: Stockholm</span>
-              </div>
-
-              <div class="status-row">
-                <div>
-                  <label for="status-megane">Status i säljtratt</label><br />
-                  <select id="status-megane" class="status-select">
-                    <option value="unsold" selected>Ej såld</option>
-                    <option value="sold">Såld</option>
-                    <option value="paid">Betald</option>
-                    <option value="delivered">Levererad</option>
-                    <option value="registered">Registrerad</option>
-                  </select>
-                  <p class="helper-text">
-                    Uppdatera efter varje steg: signerat avtal, betalning, leverans, registrering.
-                  </p>
-                </div>
-              </div>
+            <div class="vehicle-model">
+              <span class="vehicle-model-main">Megane E-Tech Electric EV60</span>
+              <span class="vehicle-model-sub">Stockholm • Chassinr: DEMO-MEGA-001</span>
             </div>
-          </article>
+            <div class="vehicle-days">
+              <span class="days-pill" data-days="3">3 dagar</span>
+            </div>
+            <div class="vehicle-price-cell">
+              <input
+                type="text"
+                class="price-input"
+                value="529 900 kr"
+                data-car="Megane E-Tech Electric EV60"
+              />
+            </div>
+            <div class="status-cell">
+              <span class="funnel-status funnel-status--unsold">Ej såld</span>
+            </div>
+            <div class="actions-cell">
+              <button class="btn btn-danger remove-btn" type="button">
+                Ta bort
+              </button>
+            </div>
+          </div>
 
-          <!-- Bil 2 -->
-          <article class="vehicle-card" data-status="sold">
-            <div class="vehicle-media">
+          <!-- Rad 2 -->
+          <div class="vehicle-row" data-status="sold">
+            <div class="vehicle-thumb">
               <img
                 src="https://www.brandtbil.se/wp-content/uploads/renault-austral-2024-brandt-bil-1170x658.jpg.webp"
-                alt="Renault Austral E-Tech – bild"
+                alt="Austral E-Tech"
               />
-              <div class="vehicle-media-tag">Austral E-Tech</div>
             </div>
-            <div class="vehicle-body">
-              <div class="vehicle-header">
-                <div>
-                  <h3 class="vehicle-title">Austral E-Tech Full Hybrid</h3>
-                  <p class="vehicle-subtitle">Göteborg • Hedin Mobility Group</p>
-                </div>
-                <span class="funnel-status funnel-status--sold">Såld</span>
-              </div>
-
-              <div class="vehicle-specs">
-                <span>Full Hybrid</span>
-                <span>4Control Advanced</span>
-                <span>Black Pearl</span>
-              </div>
-
-              <div class="vehicle-meta">
-                <span>Chassinr: DEMO-AUST-004</span>
-                <span>Avtal: Signerat</span>
-                <span>Planerad leverans: v.42</span>
-              </div>
-
-              <div class="status-row">
-                <div>
-                  <label for="status-austral">Status i säljtratt</label><br />
-                  <select id="status-austral" class="status-select">
-                    <option value="unsold">Ej såld</option>
-                    <option value="sold" selected>Såld</option>
-                    <option value="paid">Betald</option>
-                    <option value="delivered">Levererad</option>
-                    <option value="registered">Registrerad</option>
-                  </select>
-                  <p class="helper-text">
-                    Ändra till <em>Betald</em> när handpenning eller full betalning är registrerad.
-                  </p>
-                </div>
-              </div>
+            <div class="vehicle-model">
+              <span class="vehicle-model-main">Austral E-Tech Full Hybrid</span>
+              <span class="vehicle-model-sub">Göteborg • Chassinr: DEMO-AUST-004</span>
             </div>
-          </article>
+            <div class="vehicle-days">
+              <span class="days-pill" data-days="7">7 dagar</span>
+            </div>
+            <div class="vehicle-price-cell">
+              <input
+                type="text"
+                class="price-input"
+                value="439 900 kr"
+                data-car="Austral E-Tech Full Hybrid"
+              />
+            </div>
+            <div class="status-cell">
+              <span class="funnel-status funnel-status--sold">Såld</span>
+            </div>
+            <div class="actions-cell">
+              <button class="btn btn-danger remove-btn" type="button">
+                Ta bort
+              </button>
+            </div>
+          </div>
 
-          <!-- Bil 3 -->
-          <article class="vehicle-card" data-status="delivered">
-            <div class="vehicle-media">
+          <!-- Rad 3 -->
+          <div class="vehicle-row" data-status="delivered">
+            <div class="vehicle-thumb">
               <img
                 src="https://cdn.wayke.se/cfit/54463ca0-e476-4864-bae0-c914b4eac342/c63cda6f-14e2-448f-96a6-cd3f2b2c654a?format=jpeg&r=0000000&w=1170"
-                alt="Renault Arkana E-Tech – bild"
+                alt="Arkana E-Tech"
               />
-              <div class="vehicle-media-tag">Arkana E-Tech</div>
             </div>
-            <div class="vehicle-body">
-              <div class="vehicle-header">
-                <div>
-                  <h3 class="vehicle-title">Arkana E-Tech Hybrid</h3>
-                  <p class="vehicle-subtitle">Malmö • Privat kundkväll</p>
-                </div>
-                <span class="funnel-status funnel-status--delivered">Levererad</span>
-              </div>
-
-              <div class="vehicle-specs">
-                <span>E-Tech Hybrid</span>
-                <span>Monaco Blue</span>
-                <span>18" fälgar</span>
-              </div>
-
-              <div class="vehicle-meta">
-                <span>Chassinr: DEMO-ARK-007</span>
-                <span>Leverans: genomförd</span>
-                <span>Registrering: pågår</span>
-              </div>
-
-              <div class="status-row">
-                <div>
-                  <label for="status-arkana">Status i säljtratt</label><br />
-                  <select id="status-arkana" class="status-select">
-                    <option value="unsold">Ej såld</option>
-                    <option value="sold">Såld</option>
-                    <option value="paid">Betald</option>
-                    <option value="delivered" selected>Levererad</option>
-                    <option value="registered">Registrerad</option>
-                  </select>
-                  <p class="helper-text">
-                    När registreringen är klar, sätt status till <em>Registrerad</em>.
-                  </p>
-                </div>
-              </div>
+            <div class="vehicle-model">
+              <span class="vehicle-model-main">Arkana E-Tech Hybrid</span>
+              <span class="vehicle-model-sub">Malmö • Chassinr: DEMO-ARK-007</span>
             </div>
-          </article>
+            <div class="vehicle-days">
+              <span class="days-pill" data-days="12">12 dagar</span>
+            </div>
+            <div class="vehicle-price-cell">
+              <input
+                type="text"
+                class="price-input"
+                value="389 900 kr"
+                data-car="Arkana E-Tech Hybrid"
+              />
+            </div>
+            <div class="status-cell">
+              <span class="funnel-status funnel-status--delivered">Levererad</span>
+            </div>
+            <div class="actions-cell">
+              <button class="btn btn-danger remove-btn" type="button">
+                Ta bort
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
     <footer>
-      © 2025 RN Nordic AB – Renault Nordic Salon Privé. Demo-version utan koppling
-      till verkliga system. Status ska i produktion sparas i backend/CRM.
+      © 2025 RN Nordic AB – Renault Nordic Salon Privé. Demo-version – ingen data
+      sparas. I produktion bör ändringar skickas till backend/CRM.
     </footer>
   </div>
 
   <script>
+    // Statuskonfiguration och ordning i tratten
+    const statusOrder = ["unsold", "sold", "paid", "delivered", "registered"];
     const statusConfig = {
       unsold: { label: "Ej såld", className: "funnel-status--unsold" },
       sold: { label: "Såld", className: "funnel-status--sold" },
@@ -687,35 +656,55 @@
       registered: { label: "Registrerad", className: "funnel-status--registered" },
     };
 
-    document.querySelectorAll(".vehicle-card").forEach((card) => {
-      const select = card.querySelector(".status-select");
-      const pill = card.querySelector(".funnel-status");
-      if (!select || !pill) return;
+    // Hjälp-funktion som sätter rätt klass + text på status-pill
+    function applyStatus(row, value) {
+      const pill = row.querySelector(".funnel-status");
+      const cfg = statusConfig[value] || statusConfig.unsold;
+      row.setAttribute("data-status", value);
+      pill.textContent = cfg.label;
+      pill.className = "funnel-status " + cfg.className;
 
-      function applyStatus(value) {
-        const cfg = statusConfig[value] || statusConfig.unsold;
-        card.setAttribute("data-status", value);
-        pill.textContent = cfg.label;
+      const model = row.querySelector(".vehicle-model-main")?.textContent?.trim();
+      console.log("Status uppdaterad:", value, "för bil:", model);
+    }
 
-        // Rensa gamla status-klasser
-        pill.className = "funnel-status";
-        pill.classList.add(cfg.className);
-      }
+    document.querySelectorAll(".vehicle-row").forEach((row) => {
+      const pill = row.querySelector(".funnel-status");
+      if (!pill) return;
 
-      // Initiera enligt nuvarande data-status
-      const initial = card.getAttribute("data-status") || select.value;
-      applyStatus(initial);
-      select.value = initial;
+      // Initiera från data-status
+      const initial = row.getAttribute("data-status") || "unsold";
+      applyStatus(row, initial);
 
-      select.addEventListener("change", () => {
-        applyStatus(select.value);
-        // Här kan du i nästa steg anropa ett API för att spara statusen.
-        console.log(
-          "Status uppdaterad:",
-          select.value,
-          "för bil:",
-          card.querySelector(".vehicle-title")?.textContent
+      pill.addEventListener("click", () => {
+        const current = row.getAttribute("data-status") || "unsold";
+        const idx = statusOrder.indexOf(current);
+        const next = statusOrder[(idx + 1) % statusOrder.length];
+        applyStatus(row, next);
+        // Här: skicka nästa status till backend/CRM.
+      });
+    });
+
+    // Pris-redigering: logga ändringar (i skarp implementation sparas till backend)
+    document.querySelectorAll(".price-input").forEach((input) => {
+      input.addEventListener("change", () => {
+        const model = input.getAttribute("data-car");
+        console.log("Pris uppdaterat för", model, "=>", input.value);
+      });
+    });
+
+    // Ta bort-rad-knappar
+    document.querySelectorAll(".remove-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const row = btn.closest(".vehicle-row");
+        const model = row?.querySelector(".vehicle-model-main")?.textContent?.trim();
+        const confirmRemove = confirm(
+          `Ta bort fordonet "${model}" från Salon Privé-listan? (Demo: tas endast bort i vyn)`
         );
+        if (confirmRemove && row) {
+          row.remove();
+          console.log("Fordon borttaget (demo):", model);
+        }
       });
     });
   </script>
