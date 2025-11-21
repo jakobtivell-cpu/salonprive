@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Renault Nordic Salon Privé – Portal</title>
+  <title>Renault Nordic Salon Privé – Portalstart</title>
   <style>
     :root {
       --renault-black: #191c1f;
@@ -35,6 +35,11 @@
       display: flex;
       justify-content: center;
       align-items: stretch;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     .page-wrapper {
@@ -136,6 +141,28 @@
       height: 6px;
       border-radius: 50%;
       background: var(--renault-yellow);
+    }
+
+    .hero-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-nav a {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.35);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .hero-nav a:hover {
+      background: rgba(255,255,255,0.05);
     }
 
     main {
@@ -334,215 +361,21 @@
       color: var(--text-muted);
     }
 
-    /* Admin / vehicle list */
-
-    .admin-wrapper {
+    .cta-card {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
-    .admin-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .admin-header-text h2 {
+    .cta-card h3 {
       margin: 0 0 4px;
-      font-size: 18px;
+      font-size: 16px;
     }
 
-    .admin-header-text p {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    .admin-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text-muted);
-    }
-
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-    }
-
-    .badge-dot--green {
-      background: var(--success);
-    }
-
-    .badge-dot--red {
-      background: var(--danger);
-    }
-
-    .badge-dot--amber {
-      background: #f9a825;
-    }
-
-    .vehicle-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 14px;
-      margin-top: 4px;
-    }
-
-    @media (min-width: 900px) {
-      .vehicle-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      }
-    }
-
-    .vehicle-card {
-      background: linear-gradient(145deg, var(--card-bg), var(--card-elevated));
-      border-radius: 16px;
-      border: 1px solid var(--border-subtle);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-
-    .vehicle-media {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .vehicle-media img {
-      display: block;
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      filter: saturate(1.05) contrast(1.05);
-      transition: transform 0.22s ease;
-    }
-
-    .vehicle-card:hover .vehicle-media img {
-      transform: scale(1.03);
-    }
-
-    .vehicle-media-tag {
-      position: absolute;
-      left: 12px;
-      bottom: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.68);
-      backdrop-filter: blur(6px);
-      color: #f5f5f5;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-    }
-
-    .vehicle-body {
-      padding: 12px 14px 13px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .vehicle-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
-    .vehicle-title {
-      font-size: 15px;
-      margin: 0;
-    }
-
-    .vehicle-subtitle {
-      margin: 2px 0 0;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .vehicle-specs {
+    .cta-links {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .vehicle-specs span {
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .vehicle-status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 2px;
-    }
-
-    .status-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      border: 1px solid transparent;
-    }
-
-    .status-pill--unsold {
-      background: rgba(198, 40, 40, 0.16);
-      border-color: rgba(198, 40, 40, 0.65);
-      color: #ffcdd2;
-    }
-
-    .status-pill--sold {
-      background: rgba(46, 125, 50, 0.18);
-      border-color: rgba(46, 125, 50, 0.7);
-      color: #c8e6c9;
-    }
-
-    .status-toggle-btn {
-      flex-shrink: 0;
-      padding-inline: 12px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: var(--text-main);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.16s ease, border-color 0.16s ease, transform 0.12s ease;
-    }
-
-    .status-toggle-btn:hover {
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .status-toggle-btn:active {
-      transform: translateY(1px) scale(0.99);
     }
 
     footer {
@@ -551,10 +384,6 @@
       color: var(--text-muted);
       text-align: left;
       opacity: 0.85;
-    }
-
-    .hidden {
-      display: none !important;
     }
   </style>
 </head>
@@ -580,26 +409,29 @@
         </div>
         <h1>Salon Privé</h1>
         <p>
-          En exklusiv, lösenordsskyddad portal för Renault Nordic – framtagen för
-          svenska återförsäljare och partners att kurera, följa upp och markera
-          fordon under nordiska Salon Privé-event.
+          En exklusiv portal för Renault Nordic – framtagen för svenska
+          återförsäljare, partners och utvalda kunder under nordiska Salon Privé-event.
         </p>
       </div>
+      <nav class="hero-nav">
+        <a href="customer.html">Kundvy</a>
+        <a href="admin.html">Adminpanel</a>
+      </nav>
     </header>
 
     <main>
       <!-- LOGIN / LANDING -->
-      <section class="card login-card" id="login-section" aria-label="Inloggning">
+      <section class="card login-card" aria-label="Inloggning">
         <div class="login-inner">
           <h2>Välkommen till Renault Nordic Salon Privé</h2>
           <p class="login-tagline">
-            Logga in för att se det aktuella urvalet, följa status i realtid och
-            förbereda kundmöten på högsta nivå.
+            Logga in för att administrera fordon, följa upp affärer och stödja
+            återförsäljarnätverket under pågående event.
           </p>
 
           <p class="login-note">
-            Portalen är avsedd för auktoriserade medarbetare hos RN Nordic och svenska
-            återförsäljare.
+            Admininloggning är avsedd för auktoriserade medarbetare hos RN Nordic
+            och svenska återförsäljare.
           </p>
 
           <form class="login-form" id="dummyLoginForm">
@@ -627,160 +459,39 @@
             </div>
             <div>
               <button type="submit" class="btn btn-primary" id="emailLoginBtn">
-                Logga in
+                Logga in till admin
               </button>
             </div>
           </form>
 
           <div class="divider"><span>eller</span></div>
 
-          <!-- DEMO: "Logga in med Google" – kopplas mot Google Identity Services i riktig implementation -->
           <button class="btn btn-google" id="googleLoginBtn" type="button">
             <span class="google-icon" aria-hidden="true">G</span>
-            <span>Fortsätt med Google</span>
+            <span>Fortsätt med Google (admin)</span>
           </button>
 
           <p class="helper-text">
-            Demo-läge: knappen ovan simulerar inloggning. I produktion kopplas denna vy
-            mot Google-inloggning (OAuth/Google Identity Services) och bakomliggande
-            behörighetskontroll.
+            Demo-läge: inloggningen här omdirigerar dig till adminpanelen. I produktion
+            kopplas detta mot Google-inloggning (OAuth) och behörighetskontroll.
           </p>
         </div>
       </section>
 
-      <!-- ADMIN / VEHICLE STATUS -->
-      <section class="card hidden" id="admin-section" aria-label="Admin – fordonsstatus">
-        <div class="admin-wrapper">
-          <div class="admin-header">
-            <div class="admin-header-text">
-              <h2>Adminpanel – Salon Privé-fordon</h2>
-              <p>
-                Uppdatera status för varje bil med ett klick. Färgen visar läget:
-                grönt för såld, rött för ej såld – perfekt under visningar, VIP-kvällar
-                och helg-event.
-              </p>
-              <div class="admin-badges">
-                <div class="badge">
-                  <span class="badge-dot badge-dot--red"></span>
-                  <span>Ej såld</span>
-                </div>
-                <div class="badge">
-                  <span class="badge-dot badge-dot--green"></span>
-                  <span>Såld</span>
-                </div>
-                <div class="badge">
-                  <span class="badge-dot badge-dot--amber"></span>
-                  <span>Reserverad (framtida läge)</span>
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-ghost" id="logoutBtn" type="button">
-              Logga ut
-            </button>
-          </div>
-
-          <div class="vehicle-grid" id="vehicleGrid">
-            <!-- Exempelbil 1 -->
-            <article class="vehicle-card" data-status="unsold">
-              <div class="vehicle-media">
-                <!-- PLATS FÖR BILDBANK / BLOCKET-LÄNK -->
-                <img
-                  src="https://pro.bbcdn.io/ed/eda383b8-39a4-4b1f-bb67-9e52361f13c2?rule=news-large"
-                  alt="Renault Megane E-Tech – plats för bild från Blocket eller intern bildbank"
-                />
-                <div class="vehicle-media-tag">Elbil • Salon Privé</div>
-              </div>
-              <div class="vehicle-body">
-                <div class="vehicle-header">
-                  <div>
-                    <h3 class="vehicle-title">Megane E-Tech Electric</h3>
-                    <p class="vehicle-subtitle">Stockholm • Salon Privé-utställning</p>
-                  </div>
-                  <span class="status-pill status-pill--unsold">Ej såld</span>
-                </div>
-                <div class="vehicle-specs">
-                  <span>EV60 • 220 hk</span>
-                  <span>Long Range</span>
-                  <span>Pearl White</span>
-                </div>
-                <div class="vehicle-status-row">
-                  <small class="helper-text">
-                    Tryck för att markera bilen som såld eller ej såld.
-                  </small>
-                  <button class="status-toggle-btn" type="button">
-                    Markera som såld
-                  </button>
-                </div>
-              </div>
-            </article>
-
-            <!-- Exempelbil 2 -->
-            <article class="vehicle-card" data-status="unsold">
-              <div class="vehicle-media">
-                <img
-                  src="https://www.brandtbil.se/wp-content/uploads/renault-austral-2024-brandt-bil-1170x658.jpg.webp"
-                  alt="Renault Austral E-Tech – plats för bild från Blocket eller intern bildbank"
-                />
-                <div class="vehicle-media-tag">Hybrid • VIP-visning</div>
-              </div>
-              <div class="vehicle-body">
-                <div class="vehicle-header">
-                  <div>
-                    <h3 class="vehicle-title">Austral E-Tech Full Hybrid</h3>
-                    <p class="vehicle-subtitle">Göteborg • Hedin Mobilty Group</p>
-                  </div>
-                  <span class="status-pill status-pill--unsold">Ej såld</span>
-                </div>
-                <div class="vehicle-specs">
-                  <span>Full Hybrid</span>
-                  <span>4Control Advanced</span>
-                  <span>Black Pearl</span>
-                </div>
-                <div class="vehicle-status-row">
-                  <small class="helper-text">
-                    Uppdatera status under pågående event.
-                  </small>
-                  <button class="status-toggle-btn" type="button">
-                    Markera som såld
-                  </button>
-                </div>
-              </div>
-            </article>
-
-            <!-- Exempelbil 3 -->
-            <article class="vehicle-card" data-status="sold">
-              <div class="vehicle-media">
-                <img
-                  src="https://cdn.wayke.se/cfit/54463ca0-e476-4864-bae0-c914b4eac342/c63cda6f-14e2-448f-96a6-cd3f2b2c654a?format=jpeg&r=0000000&w=1170"
-                  alt="Renault Arkana E-Tech – plats för bild från Blocket eller intern bildbank"
-                />
-                <div class="vehicle-media-tag">E-Tech • Såld</div>
-              </div>
-              <div class="vehicle-body">
-                <div class="vehicle-header">
-                  <div>
-                    <h3 class="vehicle-title">Arkana E-Tech Hybrid</h3>
-                    <p class="vehicle-subtitle">Malmö • Privat kundkväll</p>
-                  </div>
-                  <span class="status-pill status-pill--sold">Såld</span>
-                </div>
-                <div class="vehicle-specs">
-                  <span>E-Tech Hybrid</span>
-                  <span>Monaco Blue</span>
-                  <span>18&quot; fälgar</span>
-                </div>
-                <div class="vehicle-status-row">
-                  <small class="helper-text">
-                    Denna bil är markerad som såld – kan ändras vid behov.
-                  </small>
-                  <button class="status-toggle-btn" type="button">
-                    Markera som ej såld
-                  </button>
-                </div>
-              </div>
-            </article>
-          </div>
+      <section class="card cta-card" aria-label="Snabblänkar">
+        <h3>Direkt till visningsupplevelsen</h3>
+        <p class="login-tagline">
+          Kundvyn är optimerad för salongen: stora bilder, prisinformation och enkel
+          återförsäljarval. Perfekt på skärm i showroomet eller under VIP-kvällar.
+        </p>
+        <div class="cta-links">
+          <a href="customer.html" class="btn btn-primary">Öppna kundvy</a>
+          <a href="admin.html" class="btn btn-ghost">Gå till adminpanel</a>
         </div>
+        <p class="helper-text">
+          Tips: kör kundvyn på en separat skärm och använd adminpanelen på
+          surfplatta eller laptop bakom kulisserna.
+        </p>
       </section>
     </main>
 
@@ -790,84 +501,22 @@
   </div>
 
   <script>
-    // Enkel frontend-demo: hanterar växling mellan login och adminpanel.
-    // Ersätt detta med riktig auth (Google Identity Services + backend)
-    // när portalen kopplas upp skarpt.
-
-    const loginSection = document.getElementById("login-section");
-    const adminSection = document.getElementById("admin-section");
-
+    // Demo: omdirigera login till admin.html
     const loginForm = document.getElementById("dummyLoginForm");
     const googleLoginBtn = document.getElementById("googleLoginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    function showAdmin() {
-      loginSection.classList.add("hidden");
-      adminSection.classList.remove("hidden");
-      // Här kan man ladda fordon från API/backend i framtiden
-    }
-
-    function showLogin() {
-      adminSection.classList.add("hidden");
-      loginSection.classList.remove("hidden");
-    }
 
     if (loginForm) {
       loginForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        // TODO: ersätt logik med riktig validering mot backend
-        showAdmin();
+        window.location.href = "admin.html";
       });
     }
 
     if (googleLoginBtn) {
       googleLoginBtn.addEventListener("click", function () {
-        // TODO: koppla mot Google Identity Services
-        showAdmin();
+        window.location.href = "admin.html";
       });
     }
-
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", function () {
-        showLogin();
-      });
-    }
-
-    // Hantera statusknappar (såld / ej såld) per bilkort
-    function initVehicleStatusToggles() {
-      const vehicleCards = document.querySelectorAll(".vehicle-card");
-
-      vehicleCards.forEach((card) => {
-        const pill = card.querySelector(".status-pill");
-        const toggleBtn = card.querySelector(".status-toggle-btn");
-
-        if (!pill || !toggleBtn) return;
-
-        toggleBtn.addEventListener("click", function () {
-          const currentStatus = card.getAttribute("data-status");
-
-          if (currentStatus === "sold") {
-            // Växla till EJ SÅLD
-            card.setAttribute("data-status", "unsold");
-            pill.textContent = "Ej såld";
-            pill.classList.remove("status-pill--sold");
-            pill.classList.add("status-pill--unsold");
-            toggleBtn.textContent = "Markera som såld";
-          } else {
-            // Växla till SÅLD
-            card.setAttribute("data-status", "sold");
-            pill.textContent = "Såld";
-            pill.classList.remove("status-pill--unsold");
-            pill.classList.add("status-pill--sold");
-            toggleBtn.textContent = "Markera som ej såld";
-          }
-
-          // Här skulle man i nästa steg anropa ett API för att spara statusen.
-        });
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", initVehicleStatusToggles);
   </script>
 </body>
 </html>
