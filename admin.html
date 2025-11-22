@@ -283,10 +283,49 @@
       background: rgba(198, 40, 40, 0.25);
     }
 
+    .btn-primary {
+      background: linear-gradient(135deg, var(--renault-yellow), #ffe55d);
+      color: #151515;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
     .helper-text {
       margin: 2px 0 8px;
       font-size: 11px;
       color: var(--text-muted);
+    }
+
+    /* Excel-masshantering */
+    .excel-tools {
+      margin: 12px 0 16px;
+      padding: 12px 12px 14px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+    }
+
+    .excel-tools h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .excel-tools-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 4px;
+    }
+
+    .excel-upload {
+      display: inline-flex;
+      align-items: stretch;
+      cursor: pointer;
     }
 
     /* Tabell-stil */
@@ -456,6 +495,9 @@
       opacity: 0.85;
     }
   </style>
+
+  <!-- XLSX-bibliotek för Excel (klient-side) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -526,6 +568,39 @@
           Demo-data: i en skarp version kommer bilar, pris och status från backend/CRM.
           Här loggas ändringar av pris och status i webbkonsolen.
         </p>
+
+        <!-- Excel masshantering -->
+        <div class="excel-tools">
+          <h3>Masshantering via Excel</h3>
+          <p class="helper-text">
+            Ladda ner en enkel Excel-mall, fyll i kolumnerna <strong>Modell</strong>,
+            <strong>Specifikation</strong>, <strong>Pris</strong> och
+            <strong>Erbjudandet gäller antal dagar</strong>. Ladda sedan upp filen för att
+            lägga till flera bilar på en gång.
+          </p>
+          <div class="excel-tools-actions">
+            <button type="button" class="btn btn-ghost" id="downloadTemplateBtn">
+              Ladda ner Excel-mall
+            </button>
+            <button type="button" class="btn btn-ghost" id="exportCurrentBtn">
+              Exportera nuvarande lista (Excel)
+            </button>
+
+            <label for="uploadExcelInput" class="excel-upload">
+              <span class="btn btn-primary">Ladda upp bilar från Excel</span>
+            </label>
+            <input
+              type="file"
+              id="uploadExcelInput"
+              accept=".xlsx,.xls"
+              style="display:none"
+            />
+          </div>
+          <p class="helper-text">
+            Format: vanlig <strong>.xlsx</strong>-fil – ingen CSV. Anpassad för att vara enkel
+            att redigera för icke-tekniska användare.
+          </p>
+        </div>
 
         <div class="vehicle-table">
           <div class="vehicle-table-header">
@@ -661,6 +736,7 @@
       const pill = row.querySelector(".funnel-status");
       const cfg = statusConfig[value] || statusConfig.unsold;
       row.setAttribute("data-status", value);
+      if (!pill) return;
       pill.textContent = cfg.label;
       pill.className = "funnel-status " + cfg.className;
 
@@ -668,45 +744,243 @@
       console.log("Status uppdaterad:", value, "för bil:", model);
     }
 
-    document.querySelectorAll(".vehicle-row").forEach((row) => {
+    function wireRowEvents(row) {
       const pill = row.querySelector(".funnel-status");
-      if (!pill) return;
+      if (pill) {
+        const initial = row.getAttribute("data-status") || "unsold";
+        applyStatus(row, initial);
 
-      // Initiera från data-status
-      const initial = row.getAttribute("data-status") || "unsold";
-      applyStatus(row, initial);
+        pill.addEventListener("click", () => {
+          const current = row.getAttribute("data-status") || "unsold";
+          const idx = statusOrder.indexOf(current);
+          const next = statusOrder[(idx + 1) % statusOrder.length];
+          applyStatus(row, next);
+          // Här: skicka nästa status till backend/CRM.
+        });
+      }
 
-      pill.addEventListener("click", () => {
-        const current = row.getAttribute("data-status") || "unsold";
-        const idx = statusOrder.indexOf(current);
-        const next = statusOrder[(idx + 1) % statusOrder.length];
-        applyStatus(row, next);
-        // Här: skicka nästa status till backend/CRM.
-      });
+      const priceInput = row.querySelector(".price-input");
+      if (priceInput) {
+        priceInput.addEventListener("change", () => {
+          const model = priceInput.getAttribute("data-car");
+          console.log("Pris uppdaterat för", model, "=>", priceInput.value);
+        });
+      }
+
+      const removeBtn = row.querySelector(".remove-btn");
+      if (removeBtn) {
+        removeBtn.addEventListener("click", () => {
+          const model = row?.querySelector(".vehicle-model-main")?.textContent?.trim();
+          const confirmRemove = confirm(
+            `Ta bort fordonet "${model}" från Salon Privé-listan? (Demo: tas endast bort i vyn)`
+          );
+          if (confirmRemove && row) {
+            row.remove();
+            console.log("Fordon borttaget (demo):", model);
+          }
+        });
+      }
+    }
+
+    // Koppla event på befintliga rader
+    document.querySelectorAll(".vehicle-row").forEach((row) => {
+      wireRowEvents(row);
     });
 
-    // Pris-redigering: logga ändringar (i skarp implementation sparas till backend)
-    document.querySelectorAll(".price-input").forEach((input) => {
-      input.addEventListener("change", () => {
-        const model = input.getAttribute("data-car");
-        console.log("Pris uppdaterat för", model, "=>", input.value);
-      });
-    });
+    // --- Excel-hjälpfunktioner ---
 
-    // Ta bort-rad-knappar
-    document.querySelectorAll(".remove-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const row = btn.closest(".vehicle-row");
-        const model = row?.querySelector(".vehicle-model-main")?.textContent?.trim();
-        const confirmRemove = confirm(
-          `Ta bort fordonet "${model}" från Salon Privé-listan? (Demo: tas endast bort i vyn)`
-        );
-        if (confirmRemove && row) {
-          row.remove();
-          console.log("Fordon borttaget (demo):", model);
+    function ensureXlsxAvailable() {
+      if (typeof XLSX === "undefined") {
+        alert("Excel-funktionalitet är inte tillgänglig (XLSX-biblioteket kunde inte laddas).");
+        return false;
+      }
+      return true;
+    }
+
+    function downloadExcelTemplate() {
+      if (!ensureXlsxAvailable()) return;
+
+      const wb = XLSX.utils.book_new();
+      const wsData = [
+        ["Modell", "Specifikation", "Pris", "Erbjudandet gäller antal dagar"],
+        ["Exempel: Megane E-Tech Electric EV60", "Exempel: Demo Stockholm", "529 900 kr", "7"],
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      XLSX.utils.book_append_sheet(wb, ws, "Mall");
+      XLSX.writeFile(wb, "friends-family-bilmall.xlsx");
+    }
+
+    function exportCurrentListToExcel() {
+      if (!ensureXlsxAvailable()) return;
+
+      const data = [];
+      data.push(["Modell", "Specifikation", "Pris", "Erbjudandet gäller antal dagar"]);
+
+      document.querySelectorAll(".vehicle-row").forEach((row) => {
+        const modelMain = row.querySelector(".vehicle-model-main");
+        const modelSub = row.querySelector(".vehicle-model-sub");
+        const priceInput = row.querySelector(".price-input");
+        const daysPill = row.querySelector(".days-pill");
+
+        const modell = modelMain ? modelMain.textContent.trim() : "";
+        const spec = modelSub ? modelSub.textContent.trim() : "";
+        const pris = priceInput ? priceInput.value : "";
+        const daysRaw =
+          (daysPill && (daysPill.getAttribute("data-days") || daysPill.textContent)) || "";
+        const dagar = String(daysRaw).replace("dagar", "").trim();
+
+        data.push([modell, spec, pris, dagar]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Bilar");
+      XLSX.writeFile(wb, "friends-family-bilar.xlsx");
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function createVehicleRowElement({ modell, spec, pris, dagar }) {
+      const row = document.createElement("div");
+      row.className = "vehicle-row";
+      row.setAttribute("data-status", "unsold");
+
+      const safeModell = escapeHtml(modell || "");
+      const safeSpec = escapeHtml(spec || "");
+      const safePris = escapeHtml(pris || "");
+      const daysValue = String(dagar || "").trim() || "0";
+
+      row.innerHTML = `
+        <div class="vehicle-thumb">
+          <img
+            src="https://pro.bbcdn.io/ed/eda383b8-39a4-4b1f-bb67-9e52361f13c2?rule=news-large"
+            alt="${safeModell || "Nytt fordon"}"
+          />
+        </div>
+        <div class="vehicle-model">
+          <span class="vehicle-model-main">${safeModell}</span>
+          <span class="vehicle-model-sub">${safeSpec}</span>
+        </div>
+        <div class="vehicle-days">
+          <span class="days-pill" data-days="${daysValue}">${daysValue} dagar</span>
+        </div>
+        <div class="vehicle-price-cell">
+          <input
+            type="text"
+            class="price-input"
+            value="${safePris}"
+            data-car="${safeModell}"
+          />
+        </div>
+        <div class="status-cell">
+          <span class="funnel-status funnel-status--unsold">Ej såld</span>
+        </div>
+        <div class="actions-cell">
+          <button class="btn btn-danger remove-btn" type="button">
+            Ta bort
+          </button>
+        </div>
+      `;
+      return row;
+    }
+
+    function addVehicleRowFromData(data) {
+      const table = document.querySelector(".vehicle-table");
+      if (!table) return;
+      const row = createVehicleRowElement(data);
+      table.appendChild(row);
+      wireRowEvents(row);
+    }
+
+    function handleExcelUpload(event) {
+      if (!ensureXlsxAvailable()) return;
+
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+        if (!rows || rows.length < 2) {
+          alert("Filen verkar inte innehålla några bilar (endast rubrikrad hittades).");
+          return;
         }
-      });
-    });
+
+        const headerRow = rows[0].map((h) => String(h || "").trim().toLowerCase());
+        const colIndex = {
+          modell: headerRow.indexOf("modell"),
+          spec: headerRow.indexOf("specifikation"),
+          pris: headerRow.indexOf("pris"),
+          dagar: headerRow.indexOf("erbjudandet gäller antal dagar"),
+        };
+
+        if (colIndex.modell === -1 || colIndex.pris === -1) {
+          alert(
+            "Excel-filen måste minst innehålla kolumnerna 'Modell' och 'Pris'. " +
+              "Använd gärna nedladdningsmallen som utgångspunkt."
+          );
+          return;
+        }
+
+        let addedCount = 0;
+
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          const modell = row[colIndex.modell] || "";
+          const pris = row[colIndex.pris] || "";
+          const spec = colIndex.spec !== -1 ? row[colIndex.spec] || "" : "";
+          const dagar = colIndex.dagar !== -1 ? row[colIndex.dagar] || "" : "";
+
+          const allEmpty = [modell, pris, spec, dagar]
+            .join("")
+            .trim().length === 0;
+          if (allEmpty) continue;
+          if (!String(modell).trim() || !String(pris).trim()) continue;
+
+          addVehicleRowFromData({
+            modell: String(modell),
+            spec: String(spec),
+            pris: String(pris),
+            dagar: String(dagar),
+          });
+          addedCount++;
+        }
+
+        alert(`Import klar. Antal tillagda bilar: ${addedCount}.`);
+      };
+
+      reader.readAsArrayBuffer(file);
+
+      // Nollställ input så att samma fil kan laddas upp igen vid behov
+      event.target.value = "";
+    }
+
+    // Koppla Excel-knapparna
+    const downloadTemplateBtn = document.getElementById("downloadTemplateBtn");
+    const exportCurrentBtn = document.getElementById("exportCurrentBtn");
+    const uploadExcelInput = document.getElementById("uploadExcelInput");
+
+    if (downloadTemplateBtn) {
+      downloadTemplateBtn.addEventListener("click", downloadExcelTemplate);
+    }
+    if (exportCurrentBtn) {
+      exportCurrentBtn.addEventListener("click", exportCurrentListToExcel);
+    }
+    if (uploadExcelInput) {
+      uploadExcelInput.addEventListener("change", handleExcelUpload);
+    }
   </script>
 </body>
 </html>
