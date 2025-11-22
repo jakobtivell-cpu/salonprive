@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Renault Nordic Salon Privé – Kundvy</title>
+  <title>Renault Nordic Friends&Family – Kundvy</title>
   <style>
     :root {
       --renault-black: #191c1f;
@@ -78,10 +78,11 @@
     }
 
     .hero-logo img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       display: block;
+      background: #000;
     }
 
     .hero-branding-text {
@@ -184,12 +185,6 @@
       margin-top: 8px;
     }
 
-    @media (min-width: 900px) {
-      .vehicle-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      }
-    }
-
     .vehicle-card {
       background: linear-gradient(145deg, var(--card-bg), var(--card-elevated));
       border-radius: 16px;
@@ -258,16 +253,32 @@
     }
 
     .vehicle-price {
-      font-size: 17px;
-      font-weight: 600;
       margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .vehicle-price small {
-      display: block;
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 13px;
+    }
+
+    .price-row--highlight {
+      font-weight: 600;
+    }
+
+    .price-label {
       font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
       color: var(--text-muted);
-      font-weight: 400;
+    }
+
+    .price-value {
+      font-size: 15px;
     }
 
     .vehicle-specs {
@@ -283,6 +294,27 @@
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .vehicle-timer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .timer-label {
+      opacity: 0.86;
+    }
+
+    .timer-value {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(0, 0, 0, 0.45);
+      font-size: 11px;
     }
 
     .customer-actions {
@@ -363,6 +395,105 @@
       text-align: left;
       opacity: 0.85;
     }
+
+    /* Modal för köp/reservation */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    .modal-backdrop.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 420px;
+      background: radial-gradient(circle at top left, #232733 0, #12141a 45%, #0b0d11 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 16px;
+      position: relative;
+    }
+
+    .modal h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
+    .modal .helper-text {
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+
+    .modal-form {
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal input[type="text"],
+    .modal input[type="tel"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(10, 11, 14, 0.9);
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+
+    .modal input[type="text"]:focus,
+    .modal input[type="tel"]:focus {
+      border-color: var(--renault-yellow);
+      box-shadow: 0 0 0 1px rgba(255, 210, 0, 0.4);
+      background: #14161d;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-top: 2px;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -383,16 +514,16 @@
       <div class="hero-title-block">
         <div class="hero-pill">
           <span class="hero-pill-dot"></span>
-          <span>Salon Privé – Kundvy</span>
+          <span>Friends&Family – Kundvy</span>
         </div>
         <h1>Utvalda bilar</h1>
         <p>
-          En kuraterad samling Renault-modeller för Salon Privé – för dig som gillar
-          tydlighet, prisbild och kort väg till affär.
+          Välkommen till Friends&Family. Här ser du särskilda erbjudanden för dig som är
+          nära ansluten till RN Nordic – med lägre priser än ute i bilhandeln på utvalda bilar.
         </p>
       </div>
       <nav class="hero-nav">
-        <a href="landing.html">Portalstart</a>
+        <a href="index.html">Friends&Family start</a>
         <a href="admin.html">Admin</a>
       </nav>
     </header>
@@ -401,35 +532,56 @@
       <section class="card" aria-label="Tillgängliga bilar">
         <h2 style="margin:0 0 4px;font-size:16px;">Tillgängliga fordon</h2>
         <p class="helper-text">
-          Välj återförsäljare och klicka på <strong>Köp / reservera</strong> för att
-          skicka en intresseanmälan via salongens personal.
+          <strong>Välkommen till Friends&Family.</strong><br />
+          Erbjudandena nedan riktar sig till dig som är nära ansluten till RN Nordic.<br /><br />
+          Lägre priser än ute i bilhandeln. Specifika bilar som kan försvinna snabbt.
+          Du reserverar bilen här, och fullföljer sedan affären hos den återförsäljare du valt.
+          Om inget specifikt framgår av erbjudandet på denna sida kan du ordna finansiering
+          tillsammans med återförsäljaren.
         </p>
 
         <div class="vehicle-grid">
           <!-- Bil 1 -->
-          <article class="vehicle-card" data-car-name="Megane E-Tech Electric" data-price="529 900 kr">
+          <article class="vehicle-card"
+            data-car-name="Megane E-Tech Electric EV60"
+            data-list-price="529 900 kr"
+            data-ff-price="499 900 kr"
+            data-days-left="5">
             <div class="vehicle-media">
               <img
                 src="https://pro.bbcdn.io/ed/eda383b8-39a4-4b1f-bb67-9e52361f13c2?rule=news-large"
                 alt="Renault Megane E-Tech – bild"
               />
-              <div class="vehicle-media-tag">Elbil • Salon Privé</div>
+              <div class="vehicle-media-tag">Elbil • Friends&Family</div>
             </div>
             <div class="vehicle-body">
               <div class="vehicle-header">
                 <div>
                   <h3 class="vehicle-title">Megane E-Tech Electric EV60</h3>
-                  <p class="vehicle-subtitle">Stockholm • Salon Privé-utställning</p>
+                  <p class="vehicle-subtitle">Stockholm • Salonbil hos RN Nordic</p>
                 </div>
               </div>
+
               <div class="vehicle-price">
-                529 900 kr
-                <small>Frånpris inkl. moms, exkl. ev. lokala avtal.</small>
+                <div class="price-row">
+                  <span class="price-label">Listpris</span>
+                  <span class="price-value">529 900 kr</span>
+                </div>
+                <div class="price-row price-row--highlight">
+                  <span class="price-label">För dig</span>
+                  <span class="price-value">499 900 kr</span>
+                </div>
               </div>
+
               <div class="vehicle-specs">
                 <span>EV60 • 220 hk</span>
                 <span>Long Range</span>
                 <span>Pearl White</span>
+              </div>
+
+              <div class="vehicle-timer">
+                <span class="timer-label">Erbjudandet gäller i:</span>
+                <span class="timer-value"></span>
               </div>
 
               <div class="customer-actions">
@@ -446,20 +598,24 @@
                   Köp / reservera
                 </button>
                 <p class="helper-text">
-                  Din återförsäljare kontaktar dig för slutlig offert, inbyte och leveransdatum.
+                  Välj återförsäljare och klicka på <strong>Köp / reservera</strong> för att fylla i dina uppgifter.
                 </p>
               </div>
             </div>
           </article>
 
           <!-- Bil 2 -->
-          <article class="vehicle-card" data-car-name="Austral E-Tech Full Hybrid" data-price="439 900 kr">
+          <article class="vehicle-card"
+            data-car-name="Austral E-Tech Full Hybrid"
+            data-list-price="439 900 kr"
+            data-ff-price="414 900 kr"
+            data-days-left="3">
             <div class="vehicle-media">
               <img
                 src="https://www.brandtbil.se/wp-content/uploads/renault-austral-2024-brandt-bil-1170x658.jpg.webp"
                 alt="Renault Austral E-Tech – bild"
               />
-              <div class="vehicle-media-tag">Hybrid • VIP-visning</div>
+              <div class="vehicle-media-tag">Hybrid • Friends&Family</div>
             </div>
             <div class="vehicle-body">
               <div class="vehicle-header">
@@ -468,14 +624,27 @@
                   <p class="vehicle-subtitle">Göteborg • Hedin Mobility Group</p>
                 </div>
               </div>
+
               <div class="vehicle-price">
-                439 900 kr
-                <small>Frånpris inkl. moms. Lokala kampanjer kan tillkomma.</small>
+                <div class="price-row">
+                  <span class="price-label">Listpris</span>
+                  <span class="price-value">439 900 kr</span>
+                </div>
+                <div class="price-row price-row--highlight">
+                  <span class="price-label">För dig</span>
+                  <span class="price-value">414 900 kr</span>
+                </div>
               </div>
+
               <div class="vehicle-specs">
                 <span>Full Hybrid</span>
                 <span>4Control Advanced</span>
                 <span>Black Pearl</span>
+              </div>
+
+              <div class="vehicle-timer">
+                <span class="timer-label">Erbjudandet gäller i:</span>
+                <span class="timer-value"></span>
               </div>
 
               <div class="customer-actions">
@@ -492,14 +661,18 @@
                   Köp / reservera
                 </button>
                 <p class="helper-text">
-                  Fyll i återförsäljare – salongsvärden hjälper dig med nästa steg direkt.
+                  I nästa steg anger du dina uppgifter så att vald återförsäljare kan återkomma med offert och leveransförslag.
                 </p>
               </div>
             </div>
           </article>
 
           <!-- Bil 3 -->
-          <article class="vehicle-card" data-car-name="Arkana E-Tech Hybrid" data-price="389 900 kr">
+          <article class="vehicle-card"
+            data-car-name="Arkana E-Tech Hybrid"
+            data-list-price="389 900 kr"
+            data-ff-price="369 900 kr"
+            data-days-left="7">
             <div class="vehicle-media">
               <img
                 src="https://cdn.wayke.se/cfit/54463ca0-e476-4864-bae0-c914b4eac342/c63cda6f-14e2-448f-96a6-cd3f2b2c654a?format=jpeg&r=0000000&w=1170"
@@ -514,14 +687,27 @@
                   <p class="vehicle-subtitle">Malmö • Privat kundkväll</p>
                 </div>
               </div>
+
               <div class="vehicle-price">
-                389 900 kr
-                <small>Demoexemplar, individuell prissättning kan gälla.</small>
+                <div class="price-row">
+                  <span class="price-label">Listpris</span>
+                  <span class="price-value">389 900 kr</span>
+                </div>
+                <div class="price-row price-row--highlight">
+                  <span class="price-label">För dig</span>
+                  <span class="price-value">369 900 kr</span>
+                </div>
               </div>
+
               <div class="vehicle-specs">
                 <span>E-Tech Hybrid</span>
                 <span>Monaco Blue</span>
-                <span>18" fälgar</span>
+                <span>18&quot; fälgar</span>
+              </div>
+
+              <div class="vehicle-timer">
+                <span class="timer-label">Erbjudandet gäller i:</span>
+                <span class="timer-value"></span>
               </div>
 
               <div class="customer-actions">
@@ -538,7 +724,7 @@
                   Köp / reservera
                 </button>
                 <p class="helper-text">
-                  När du reserverar här får ansvarig säljare en notis via adminpanelen.
+                  Reservationen här är inte bindande – ansvarig säljare återkommer till dig innan affären slutförs hos återförsäljaren.
                 </p>
               </div>
             </div>
@@ -548,33 +734,211 @@
     </main>
 
     <footer>
-      © 2025 RN Nordic AB – Renault Nordic Salon Privé. Prisuppgifter är indikativa
+      © 2025 RN Nordic AB – Renault Nordic Friends&Family. Prisuppgifter är indikativa
       och kan justeras av vald återförsäljare.
     </footer>
   </div>
 
+  <!-- Popup för köp/reservation -->
+  <div class="modal-backdrop" id="purchaseModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="purchaseModalTitle">
+      <button type="button" class="modal-close" id="modalCloseBtn" aria-label="Stäng">&times;</button>
+      <h2 id="purchaseModalTitle">Bekräfta reservation</h2>
+      <p class="helper-text">
+        Du reserverar <strong><span id="modalCarName"></span></strong> hos
+        <strong><span id="modalDealerName"></span></strong>.
+      </p>
+      <p class="helper-text" id="modalPriceInfo" style="margin-top:0;"></p>
+
+      <form class="modal-form" id="purchaseForm">
+        <div>
+          <label for="customerName">Namn</label>
+          <input type="text" id="customerName" autocomplete="name" required />
+        </div>
+        <div>
+          <label for="customerAddress">Adress</label>
+          <input type="text" id="customerAddress" autocomplete="street-address" required />
+        </div>
+        <div>
+          <label for="customerPhone">Telefonnummer</label>
+          <input type="tel" id="customerPhone" autocomplete="tel" required />
+        </div>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="consentCheckbox" />
+          <span>
+            Jag godkänner att vald återförsäljare och RN Nordic hanterar mina personuppgifter
+            i samband med detta erbjudande, enligt gällande integritetspolicy.
+          </span>
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelPurchaseBtn">Avbryt</button>
+          <button type="button" class="btn btn-primary" id="confirmPurchaseBtn">Skicka förfrågan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    // Enkel demo: visa en alert med vald bil + återförsäljare
-    document.querySelectorAll(".vehicle-card").forEach((card) => {
-      const btn = card.querySelector(".purchase-btn");
-      const select = card.querySelector(".dealer-select");
-      const carName = card.getAttribute("data-car-name");
-      const price = card.getAttribute("data-price");
+    (function () {
+      // Enkel directory för demo – byt till riktiga adresser i produktion
+      const dealerEmailDirectory = {
+        "Hedin Bil Stockholm": "hedin.stockholm@example.com",
+        "Bilia Segeltorp": "bilia.segeltorp@example.com",
+        "Brandt Bil Vänersborg": "brandt.vanersborg@example.com",
+        "Hedin Bil Göteborg Mölndal": "hedin.goteborg@example.com",
+        "Bilia Sisjön": "bilia.sisjon@example.com",
+        "Brandt Bil Uddevalla": "brandt.uddevalla@example.com",
+        "Hedin Bil Malmö": "hedin.malmo@example.com",
+        "Bilia Lund": "bilia.lund@example.com",
+        "Brandt Bil Kristianstad": "brandt.kristianstad@example.com"
+      };
 
-      if (!btn || !select) return;
+      // Mottagare hos RN Nordic (demo)
+      const rnRecipients = ["friendsfamily-demo@rn-nordic.se"];
 
-      btn.addEventListener("click", () => {
-        const dealer = select.value;
-        if (!dealer) {
-          alert("Välj återförsäljare innan du reserverar bilen.");
-          return;
+      const modalBackdrop = document.getElementById("purchaseModal");
+      const modalCloseBtn = document.getElementById("modalCloseBtn");
+      const confirmBtn = document.getElementById("confirmPurchaseBtn");
+      const cancelBtn = document.getElementById("cancelPurchaseBtn");
+      const nameInput = document.getElementById("customerName");
+      const addressInput = document.getElementById("customerAddress");
+      const phoneInput = document.getElementById("customerPhone");
+      const consentCheckbox = document.getElementById("consentCheckbox");
+      const modalCarName = document.getElementById("modalCarName");
+      const modalDealerName = document.getElementById("modalDealerName");
+      const modalPriceInfo = document.getElementById("modalPriceInfo");
+
+      let activeContext = null;
+
+      function openModal(context) {
+        activeContext = context;
+        modalCarName.textContent = context.carName;
+        modalDealerName.textContent = context.dealer;
+        modalPriceInfo.textContent =
+          "Listpris " + (context.listPrice || "-") +
+          " • För dig " + (context.ffPrice || "-");
+
+        nameInput.value = "";
+        addressInput.value = "";
+        phoneInput.value = "";
+        consentCheckbox.checked = false;
+
+        modalBackdrop.classList.add("is-active");
+        nameInput.focus();
+      }
+
+      function closeModal() {
+        modalBackdrop.classList.remove("is-active");
+        activeContext = null;
+      }
+
+      if (modalCloseBtn) {
+        modalCloseBtn.addEventListener("click", closeModal);
+      }
+      if (cancelBtn) {
+        cancelBtn.addEventListener("click", closeModal);
+      }
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener("click", (event) => {
+          if (event.target === modalBackdrop) {
+            closeModal();
+          }
+        });
+      }
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modalBackdrop.classList.contains("is-active")) {
+          closeModal();
+        }
+      });
+
+      // Köp/reservera-knappar
+      document.querySelectorAll(".vehicle-card").forEach((card) => {
+        const btn = card.querySelector(".purchase-btn");
+        const select = card.querySelector(".dealer-select");
+        const carName = card.getAttribute("data-car-name");
+        const listPrice = card.getAttribute("data-list-price");
+        const ffPrice = card.getAttribute("data-ff-price");
+        const daysLeft = card.getAttribute("data-days-left");
+        const timerEl = card.querySelector(".timer-value");
+
+        if (timerEl && daysLeft) {
+          timerEl.textContent = daysLeft + " dagar kvar";
         }
 
-        alert(
-          `Intresseanmälan\n\nBil: ${carName}\nPris (indikativt): ${price}\nÅterförsäljare: ${dealer}\n\nI en skarp version skickas denna information till adminpanelen / CRM.`
-        );
+        if (!btn || !select) return;
+
+        btn.addEventListener("click", () => {
+          const dealer = select.value;
+          if (!dealer) {
+            alert("Välj återförsäljare innan du reserverar bilen.");
+            return;
+          }
+
+          openModal({ carName, listPrice, ffPrice, dealer });
+        });
       });
-    });
+
+      if (confirmBtn) {
+        confirmBtn.addEventListener("click", () => {
+          if (!activeContext) return;
+
+          const name = nameInput.value.trim();
+          const address = addressInput.value.trim();
+          const phone = phoneInput.value.trim();
+
+          if (!name || !address || !phone) {
+            alert("Fyll i namn, adress och telefonnummer.");
+            return;
+          }
+
+          if (!consentCheckbox.checked) {
+            alert("Du behöver godkänna hanteringen av dina personuppgifter.");
+            return;
+          }
+
+          const dealerEmail =
+            dealerEmailDirectory[activeContext.dealer] ||
+            "friendsfamily-demo@rn-nordic.se";
+
+          const recipients = [dealerEmail].concat(rnRecipients);
+
+          const subject = "Friends&Family – reservation " + activeContext.carName;
+          const bodyLines = [
+            "Förfrågan från Friends&Family-portalen",
+            "",
+            "Bil: " + activeContext.carName,
+            "Listpris: " + (activeContext.listPrice || "-"),
+            "Friends&Family-pris: " + (activeContext.ffPrice || "-"),
+            "Återförsäljare: " + activeContext.dealer,
+            "",
+            "Kunduppgifter:",
+            "Namn: " + name,
+            "Adress: " + address,
+            "Telefon: " + phone,
+            "",
+            "Kunden har godkänt att vald återförsäljare och RN Nordic hanterar personuppgifterna i samband med detta erbjudande.",
+            "",
+            "---",
+            "Detta e-postmeddelande är genererat via Friends&Family-sidan (demo)."
+          ];
+
+          const mailtoUrl =
+            "mailto:" +
+            encodeURIComponent(recipients.join(",")) +
+            "?subject=" +
+            encodeURIComponent(subject) +
+            "&body=" +
+            encodeURIComponent(bodyLines.join("\n"));
+
+          window.location.href = mailtoUrl;
+
+          closeModal();
+          alert("Vi har skapat ett e‑postutkast till vald återförsäljare och RN Nordic.");
+        });
+      }
+    })();
   </script>
 </body>
 </html>
