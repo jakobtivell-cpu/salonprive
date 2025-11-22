@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Renault Nordic Salon Privé – Adminpanel</title>
+  <title>Renault Nordic Friends&Family – Adminpanel</title>
   <style>
     :root {
       --renault-black: #191c1f;
@@ -80,10 +80,11 @@
     }
 
     .hero-logo img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       display: block;
+      background: #000;
     }
 
     .hero-branding-text {
@@ -169,6 +170,9 @@
 
     main {
       margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .card {
@@ -196,6 +200,13 @@
       margin: 0;
       color: var(--text-muted);
       font-size: 13px;
+    }
+
+    .admin-header-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
     }
 
     .admin-badges {
@@ -271,6 +282,16 @@
       background: rgba(255, 255, 255, 0.04);
     }
 
+    .btn-primary {
+      background: linear-gradient(135deg, var(--renault-yellow), #ffe55d);
+      color: #151515;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.94;
+    }
+
     .btn-danger {
       background: rgba(198, 40, 40, 0.1);
       border: 1px solid rgba(198, 40, 40, 0.7);
@@ -283,52 +304,13 @@
       background: rgba(198, 40, 40, 0.25);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--renault-yellow), #ffe55d);
-      color: #151515;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
-    }
-
-    .btn-primary:hover {
-      opacity: 0.92;
-    }
-
     .helper-text {
       margin: 2px 0 8px;
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    /* Excel-masshantering */
-    .excel-tools {
-      margin: 12px 0 16px;
-      padding: 12px 12px 14px;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px dashed rgba(255, 255, 255, 0.18);
-    }
-
-    .excel-tools h3 {
-      margin: 0 0 4px;
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .excel-tools-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 8px 0 4px;
-    }
-
-    .excel-upload {
-      display: inline-flex;
-      align-items: stretch;
-      cursor: pointer;
-    }
-
-    /* Tabell-stil */
+    /* Tabell-stil – fordon */
     .vehicle-table {
       margin-top: 6px;
       border-radius: 12px;
@@ -464,27 +446,167 @@
       color: #fff9c4;
     }
 
-    .funnel-status--paid {
+    .funnel-status--transport {
       background: rgba(2, 136, 209, 0.18);
       border-color: rgba(2, 136, 209, 0.7);
       color: #b3e5fc;
     }
 
-    .funnel-status--delivered {
-      background: rgba(46, 125, 50, 0.18);
-      border-color: rgba(46, 125, 50, 0.7);
-      color: #c8e6c9;
+    .funnel-status--at-dealer {
+      background: rgba(129, 199, 132, 0.18);
+      border-color: rgba(129, 199, 132, 0.9);
+      color: #e8f5e9;
+    }
+
+    .funnel-status--paid {
+      background: rgba(3, 155, 229, 0.18);
+      border-color: rgba(3, 155, 229, 0.8);
+      color: #bbdefb;
     }
 
     .funnel-status--registered {
-      background: rgba(129, 199, 132, 0.2);
-      border-color: rgba(129, 199, 132, 0.9);
-      color: #e8f5e9;
+      background: rgba(56, 142, 60, 0.2);
+      border-color: rgba(56, 142, 60, 0.9);
+      color: #c8e6c9;
     }
 
     .actions-cell {
       display: flex;
       justify-content: flex-start;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* Lägg till bil-formulär */
+    .add-car-form {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(3, 4, 7, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .add-car-form.is-visible {
+      display: grid;
+    }
+
+    .add-car-form label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .add-car-form input {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(6,7,10,0.95);
+      color: var(--text-main);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .add-car-form input:focus {
+      border-color: var(--renault-yellow);
+      box-shadow: 0 0 0 1px rgba(255,210,0,0.4);
+    }
+
+    .add-car-form .form-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    /* Enkla tabeller för medlemmar och återförsäljare */
+    .simple-table {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(3,4,7,0.9);
+      overflow: hidden;
+    }
+
+    .simple-header,
+    .simple-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1.4fr 0.9fr;
+      align-items: center;
+      column-gap: 12px;
+    }
+
+    .simple-header {
+      padding: 8px 12px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      background: rgba(12, 13, 18, 0.98);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .simple-row {
+      padding: 8px 12px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .simple-row:last-child {
+      border-bottom: none;
+    }
+
+    .simple-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .add-inline-form {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .add-inline-form input[type="email"],
+    .add-inline-form input[type="text"] {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(6,7,10,0.95);
+      color: var(--text-main);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .add-inline-form input:focus {
+      border-color: var(--renault-yellow);
+      box-shadow: 0 0 0 1px rgba(255,210,0,0.4);
+    }
+
+    .dealer-email-input {
+      width: 100%;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(6,7,10,0.95);
+      color: var(--text-main);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .dealer-email-input:focus {
+      border-color: var(--renault-yellow);
+      box-shadow: 0 0 0 1px rgba(255,210,0,0.4);
     }
 
     footer {
@@ -495,9 +617,6 @@
       opacity: 0.85;
     }
   </style>
-
-  <!-- XLSX-bibliotek för Excel (klient-side) -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="page-wrapper">
@@ -517,28 +636,30 @@
       <div class="hero-title-block">
         <div class="hero-pill">
           <span class="hero-pill-dot"></span>
-          <span>Salon Privé – Adminpanel</span>
+          <span>Friends&Family – Adminpanel</span>
         </div>
         <h1>Fordon & status</h1>
         <p>
-          Kompakt översikt över alla Salon Privé-fordon: bild, modell, dagar ute, pris
-          och status i säljtratten – en rad per bil för snabb felsökning.
+          Översikt över alla Friends&Family-fordon: bild, modell, dagar ute, F&F-pris
+          och status i säljflödet – plus hantering av medlemmar och återförsäljare.
         </p>
       </div>
       <nav class="hero-nav">
-        <a href="landing.html">Portalstart</a>
+        <a href="index.html">Friends&Family start</a>
         <a href="customer.html">Kundvy</a>
       </nav>
     </header>
 
     <main>
+      <!-- Fordonslista -->
       <section class="card" aria-label="Admin – fordonslista">
         <div class="admin-header">
           <div class="admin-header-text">
-            <h2>Översikt Salon Privé-fordon</h2>
+            <h2>Översikt Friends&Family-fordon</h2>
             <p>
-              Klicka på status-pillret för att växla läge (Ej såld → Såld → Betald → Levererad → Registrerad).
-              Prisfältet är redigerbart per bil.
+              Klicka på status-pillret för att växla läge:
+              Ej såld → Såld → Transport bokad → Hos ÅF → Betald → Registrerad.
+              Prisfältet avser Friends&Family-pris per bil.
             </p>
             <div class="admin-badges">
               <div class="badge">
@@ -551,17 +672,30 @@
               </div>
               <div class="badge">
                 <span class="badge-dot badge-dot--blue"></span>
+                <span>Transport bokad</span>
+              </div>
+              <div class="badge">
+                <span class="badge-dot badge-dot--blue"></span>
+                <span>Hos ÅF</span>
+              </div>
+              <div class="badge">
+                <span class="badge-dot badge-dot--green"></span>
                 <span>Betald</span>
               </div>
               <div class="badge">
                 <span class="badge-dot badge-dot--green"></span>
-                <span>Levererad / registrerad</span>
+                <span>Registrerad</span>
               </div>
             </div>
           </div>
-          <button class="btn btn-ghost" type="button" onclick="window.location.href='landing.html'">
-            Logga ut (demo)
-          </button>
+          <div class="admin-header-actions">
+            <button class="btn btn-primary" type="button" id="addCarBtn">
+              Lägg till bil
+            </button>
+            <button class="btn btn-ghost" type="button" onclick="window.location.href='index.html'">
+              Logga ut (demo)
+            </button>
+          </div>
         </div>
 
         <p class="helper-text">
@@ -569,45 +703,40 @@
           Här loggas ändringar av pris och status i webbkonsolen.
         </p>
 
-        <!-- Excel masshantering -->
-        <div class="excel-tools">
-          <h3>Masshantering via Excel</h3>
-          <p class="helper-text">
-            Ladda ner en enkel Excel-mall, fyll i kolumnerna <strong>Modell</strong>,
-            <strong>Specifikation</strong>, <strong>Pris</strong> och
-            <strong>Erbjudandet gäller antal dagar</strong>. Ladda sedan upp filen för att
-            lägga till flera bilar på en gång.
-          </p>
-          <div class="excel-tools-actions">
-            <button type="button" class="btn btn-ghost" id="downloadTemplateBtn">
-              Ladda ner Excel-mall
-            </button>
-            <button type="button" class="btn btn-ghost" id="exportCurrentBtn">
-              Exportera nuvarande lista (Excel)
-            </button>
-
-            <label for="uploadExcelInput" class="excel-upload">
-              <span class="btn btn-primary">Ladda upp bilar från Excel</span>
-            </label>
-            <input
-              type="file"
-              id="uploadExcelInput"
-              accept=".xlsx,.xls"
-              style="display:none"
-            />
+        <!-- Lägg till bil -->
+        <form class="add-car-form" id="addCarForm">
+          <div>
+            <label for="addCarModel">Modell</label>
+            <input type="text" id="addCarModel" placeholder="Ex: Megane E-Tech EV60" required />
           </div>
-          <p class="helper-text">
-            Format: vanlig <strong>.xlsx</strong>-fil – ingen CSV. Anpassad för att vara enkel
-            att redigera för icke-tekniska användare.
-          </p>
-        </div>
+          <div>
+            <label for="addCarSpec">Specifikation</label>
+            <input type="text" id="addCarSpec" placeholder="Stad, chassinr, färg m.m." />
+          </div>
+          <div>
+            <label for="addCarListPrice">Listpris</label>
+            <input type="text" id="addCarListPrice" placeholder="Ex: 529 900 kr" />
+          </div>
+          <div>
+            <label for="addCarFFPrice">Pris F&F</label>
+            <input type="text" id="addCarFFPrice" placeholder="Ex: 499 900 kr" />
+          </div>
+          <div>
+            <label for="addCarDays">Erbjudandet gäller (dagar)</label>
+            <input type="number" id="addCarDays" min="0" placeholder="Ex: 5" />
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="cancelAddCarBtn">Avbryt</button>
+            <button type="submit" class="btn btn-primary">Spara bil</button>
+          </div>
+        </form>
 
         <div class="vehicle-table">
           <div class="vehicle-table-header">
             <div class="header-cell">Bild</div>
             <div class="header-cell">Modell</div>
             <div class="header-cell">Dagar ute</div>
-            <div class="header-cell">Pris</div>
+            <div class="header-cell">Pris F&F</div>
             <div class="header-cell">Status</div>
             <div class="header-cell">Åtgärd</div>
           </div>
@@ -631,8 +760,9 @@
               <input
                 type="text"
                 class="price-input"
-                value="529 900 kr"
+                value="499 900 kr"
                 data-car="Megane E-Tech Electric EV60"
+                data-listprice="529 900 kr"
               />
             </div>
             <div class="status-cell">
@@ -664,8 +794,9 @@
               <input
                 type="text"
                 class="price-input"
-                value="439 900 kr"
+                value="414 900 kr"
                 data-car="Austral E-Tech Full Hybrid"
+                data-listprice="439 900 kr"
               />
             </div>
             <div class="status-cell">
@@ -679,7 +810,7 @@
           </div>
 
           <!-- Rad 3 -->
-          <div class="vehicle-row" data-status="delivered">
+          <div class="vehicle-row" data-status="at_dealer">
             <div class="vehicle-thumb">
               <img
                 src="https://cdn.wayke.se/cfit/54463ca0-e476-4864-bae0-c914b4eac342/c63cda6f-14e2-448f-96a6-cd3f2b2c654a?format=jpeg&r=0000000&w=1170"
@@ -697,12 +828,13 @@
               <input
                 type="text"
                 class="price-input"
-                value="389 900 kr"
+                value="369 900 kr"
                 data-car="Arkana E-Tech Hybrid"
+                data-listprice="389 900 kr"
               />
             </div>
             <div class="status-cell">
-              <span class="funnel-status funnel-status--delivered">Levererad</span>
+              <span class="funnel-status funnel-status--at-dealer">Hos ÅF</span>
             </div>
             <div class="actions-cell">
               <button class="btn btn-danger remove-btn" type="button">
@@ -712,31 +844,139 @@
           </div>
         </div>
       </section>
+
+      <!-- Medlemmar -->
+      <section class="card" aria-label="Medlemmar Friends&Family">
+        <div class="admin-header-text">
+          <h2>Medlemmar</h2>
+          <p>
+            Hantera vilka e-postadresser som har tillgång till Friends&Family-portalen.
+            Att skicka en invite-kod skapar ett e-postutkast i din mailklient (demo).
+          </p>
+        </div>
+
+        <div class="simple-table">
+          <div class="simple-header">
+            <div>E-post</div>
+            <div>Roll</div>
+            <div>Åtgärd</div>
+          </div>
+          <div id="memberTableBody">
+            <div class="simple-row member-row" data-email="medlem1@example.com">
+              <div class="simple-cell">medlem1@example.com</div>
+              <div class="simple-cell">Vän / familj</div>
+              <div class="simple-cell">
+                <button type="button" class="btn btn-ghost btn-invite">Skicka invite-kod</button>
+              </div>
+            </div>
+            <div class="simple-row member-row" data-email="medlem2@example.com">
+              <div class="simple-cell">medlem2@example.com</div>
+              <div class="simple-cell">Anställd RN Nordic</div>
+              <div class="simple-cell">
+                <button type="button" class="btn btn-ghost btn-invite">Skicka invite-kod</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="add-inline-form">
+          <input type="email" id="newMemberEmail" placeholder="ny.medlem@example.com" />
+          <button type="button" class="btn btn-ghost" id="addMemberBtn">
+            Lägg till medlem
+          </button>
+        </div>
+      </section>
+
+      <!-- Återförsäljare -->
+      <section class="card" aria-label="Återförsäljare Friends&Family">
+        <div class="admin-header-text">
+          <h2>Återförsäljare & e-post</h2>
+          <p>
+            Här styr du vilka e-postadresser som används när förfrågningar skickas från kundvyn.
+            Koppla varje Friends&Family-återförsäljare till rätt inkorg.
+          </p>
+        </div>
+
+        <div class="simple-table">
+          <div class="simple-header">
+            <div>Återförsäljare</div>
+            <div>E-postadress</div>
+            <div>Åtgärd</div>
+          </div>
+          <div id="dealerTableBody">
+            <div class="simple-row dealer-row">
+              <div class="simple-cell dealer-name">Hedin Bil Stockholm</div>
+              <div class="simple-cell">
+                <input type="email" class="dealer-email-input" value="hedin.stockholm@example.com" />
+              </div>
+              <div class="simple-cell">
+                <button type="button" class="btn btn-ghost btn-save-dealer">Spara</button>
+                <button type="button" class="btn btn-danger btn-remove-dealer">Ta bort</button>
+              </div>
+            </div>
+            <div class="simple-row dealer-row">
+              <div class="simple-cell dealer-name">Bilia Sisjön</div>
+              <div class="simple-cell">
+                <input type="email" class="dealer-email-input" value="bilia.sisjon@example.com" />
+              </div>
+              <div class="simple-cell">
+                <button type="button" class="btn btn-ghost btn-save-dealer">Spara</button>
+                <button type="button" class="btn btn-danger btn-remove-dealer">Ta bort</button>
+              </div>
+            </div>
+            <div class="simple-row dealer-row">
+              <div class="simple-cell dealer-name">Brandt Bil Vänersborg</div>
+              <div class="simple-cell">
+                <input type="email" class="dealer-email-input" value="brandt.vanersborg@example.com" />
+              </div>
+              <div class="simple-cell">
+                <button type="button" class="btn btn-ghost btn-save-dealer">Spara</button>
+                <button type="button" class="btn btn-danger btn-remove-dealer">Ta bort</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="add-inline-form">
+          <input type="text" id="newDealerName" placeholder="Ny återförsäljare" />
+          <input type="email" id="newDealerEmail" placeholder="epost@aterforsaljare.se" />
+          <button type="button" class="btn btn-ghost" id="addDealerBtn">
+            Lägg till återförsäljare
+          </button>
+        </div>
+      </section>
     </main>
 
     <footer>
-      © 2025 RN Nordic AB – Renault Nordic Salon Privé. Demo-version – ingen data
-      sparas. I produktion bör ändringar skickas till backend/CRM.
+      © 2025 RN Nordic AB – Renault Nordic Friends&Family. Demo-version – ingen data
+      sparas. I produktion bör ändringar skickas till backend/CRM och återanvändas i kundvyn.
     </footer>
   </div>
 
   <script>
     // Statuskonfiguration och ordning i tratten
-    const statusOrder = ["unsold", "sold", "paid", "delivered", "registered"];
+    const statusOrder = [
+      "unsold",
+      "sold",
+      "transport_booked",
+      "at_dealer",
+      "paid",
+      "registered"
+    ];
+
     const statusConfig = {
       unsold: { label: "Ej såld", className: "funnel-status--unsold" },
       sold: { label: "Såld", className: "funnel-status--sold" },
+      transport_booked: { label: "Transport bokad", className: "funnel-status--transport" },
+      at_dealer: { label: "Hos ÅF", className: "funnel-status--at-dealer" },
       paid: { label: "Betald", className: "funnel-status--paid" },
-      delivered: { label: "Levererad", className: "funnel-status--delivered" },
-      registered: { label: "Registrerad", className: "funnel-status--registered" },
+      registered: { label: "Registrerad", className: "funnel-status--registered" }
     };
 
-    // Hjälp-funktion som sätter rätt klass + text på status-pill
     function applyStatus(row, value) {
       const pill = row.querySelector(".funnel-status");
       const cfg = statusConfig[value] || statusConfig.unsold;
       row.setAttribute("data-status", value);
-      if (!pill) return;
       pill.textContent = cfg.label;
       pill.className = "funnel-status " + cfg.className;
 
@@ -744,7 +984,7 @@
       console.log("Status uppdaterad:", value, "för bil:", model);
     }
 
-    function wireRowEvents(row) {
+    function initVehicleRow(row) {
       const pill = row.querySelector(".funnel-status");
       if (pill) {
         const initial = row.getAttribute("data-status") || "unsold";
@@ -763,7 +1003,8 @@
       if (priceInput) {
         priceInput.addEventListener("change", () => {
           const model = priceInput.getAttribute("data-car");
-          console.log("Pris uppdaterat för", model, "=>", priceInput.value);
+          const listPrice = priceInput.getAttribute("data-listprice") || "";
+          console.log("F&F-pris uppdaterat för", model, "=>", priceInput.value, "(listpris:", listPrice + ")");
         });
       }
 
@@ -772,9 +1013,9 @@
         removeBtn.addEventListener("click", () => {
           const model = row?.querySelector(".vehicle-model-main")?.textContent?.trim();
           const confirmRemove = confirm(
-            `Ta bort fordonet "${model}" från Salon Privé-listan? (Demo: tas endast bort i vyn)`
+            `Ta bort fordonet "${model}" från Friends&Family-listan? (Demo: tas endast bort i vyn)`
           );
-          if (confirmRemove && row) {
+          if (confirmRemove) {
             row.remove();
             console.log("Fordon borttaget (demo):", model);
           }
@@ -782,204 +1023,226 @@
       }
     }
 
-    // Koppla event på befintliga rader
-    document.querySelectorAll(".vehicle-row").forEach((row) => {
-      wireRowEvents(row);
-    });
+    document.querySelectorAll(".vehicle-row").forEach(initVehicleRow);
 
-    // --- Excel-hjälpfunktioner ---
+    // Lägg till bil-formulär
+    const addCarBtn = document.getElementById("addCarBtn");
+    const addCarForm = document.getElementById("addCarForm");
+    const cancelAddCarBtn = document.getElementById("cancelAddCarBtn");
 
-    function ensureXlsxAvailable() {
-      if (typeof XLSX === "undefined") {
-        alert("Excel-funktionalitet är inte tillgänglig (XLSX-biblioteket kunde inte laddas).");
-        return false;
-      }
-      return true;
-    }
-
-    function downloadExcelTemplate() {
-      if (!ensureXlsxAvailable()) return;
-
-      const wb = XLSX.utils.book_new();
-      const wsData = [
-        ["Modell", "Specifikation", "Pris", "Erbjudandet gäller antal dagar"],
-        ["Exempel: Megane E-Tech Electric EV60", "Exempel: Demo Stockholm", "529 900 kr", "7"],
-      ];
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-      XLSX.utils.book_append_sheet(wb, ws, "Mall");
-      XLSX.writeFile(wb, "friends-family-bilmall.xlsx");
-    }
-
-    function exportCurrentListToExcel() {
-      if (!ensureXlsxAvailable()) return;
-
-      const data = [];
-      data.push(["Modell", "Specifikation", "Pris", "Erbjudandet gäller antal dagar"]);
-
-      document.querySelectorAll(".vehicle-row").forEach((row) => {
-        const modelMain = row.querySelector(".vehicle-model-main");
-        const modelSub = row.querySelector(".vehicle-model-sub");
-        const priceInput = row.querySelector(".price-input");
-        const daysPill = row.querySelector(".days-pill");
-
-        const modell = modelMain ? modelMain.textContent.trim() : "";
-        const spec = modelSub ? modelSub.textContent.trim() : "";
-        const pris = priceInput ? priceInput.value : "";
-        const daysRaw =
-          (daysPill && (daysPill.getAttribute("data-days") || daysPill.textContent)) || "";
-        const dagar = String(daysRaw).replace("dagar", "").trim();
-
-        data.push([modell, spec, pris, dagar]);
+    if (addCarBtn && addCarForm) {
+      addCarBtn.addEventListener("click", () => {
+        addCarForm.classList.toggle("is-visible");
       });
 
-      const ws = XLSX.utils.aoa_to_sheet(data);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Bilar");
-      XLSX.writeFile(wb, "friends-family-bilar.xlsx");
-    }
+      if (cancelAddCarBtn) {
+        cancelAddCarBtn.addEventListener("click", () => {
+          addCarForm.classList.remove("is-visible");
+        });
+      }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+      addCarForm.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-    function createVehicleRowElement({ modell, spec, pris, dagar }) {
-      const row = document.createElement("div");
-      row.className = "vehicle-row";
-      row.setAttribute("data-status", "unsold");
+        const model = document.getElementById("addCarModel").value.trim();
+        const spec = document.getElementById("addCarSpec").value.trim();
+        const listPrice = document.getElementById("addCarListPrice").value.trim();
+        const ffPrice = document.getElementById("addCarFFPrice").value.trim();
+        const days = document.getElementById("addCarDays").value.trim();
 
-      const safeModell = escapeHtml(modell || "");
-      const safeSpec = escapeHtml(spec || "");
-      const safePris = escapeHtml(pris || "");
-      const daysValue = String(dagar || "").trim() || "0";
-
-      row.innerHTML = `
-        <div class="vehicle-thumb">
-          <img
-            src="https://pro.bbcdn.io/ed/eda383b8-39a4-4b1f-bb67-9e52361f13c2?rule=news-large"
-            alt="${safeModell || "Nytt fordon"}"
-          />
-        </div>
-        <div class="vehicle-model">
-          <span class="vehicle-model-main">${safeModell}</span>
-          <span class="vehicle-model-sub">${safeSpec}</span>
-        </div>
-        <div class="vehicle-days">
-          <span class="days-pill" data-days="${daysValue}">${daysValue} dagar</span>
-        </div>
-        <div class="vehicle-price-cell">
-          <input
-            type="text"
-            class="price-input"
-            value="${safePris}"
-            data-car="${safeModell}"
-          />
-        </div>
-        <div class="status-cell">
-          <span class="funnel-status funnel-status--unsold">Ej såld</span>
-        </div>
-        <div class="actions-cell">
-          <button class="btn btn-danger remove-btn" type="button">
-            Ta bort
-          </button>
-        </div>
-      `;
-      return row;
-    }
-
-    function addVehicleRowFromData(data) {
-      const table = document.querySelector(".vehicle-table");
-      if (!table) return;
-      const row = createVehicleRowElement(data);
-      table.appendChild(row);
-      wireRowEvents(row);
-    }
-
-    function handleExcelUpload(event) {
-      if (!ensureXlsxAvailable()) return;
-
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
-        if (!rows || rows.length < 2) {
-          alert("Filen verkar inte innehålla några bilar (endast rubrikrad hittades).");
+        if (!model) {
+          alert("Ange modellnamn.");
           return;
         }
 
-        const headerRow = rows[0].map((h) => String(h || "").trim().toLowerCase());
-        const colIndex = {
-          modell: headerRow.indexOf("modell"),
-          spec: headerRow.indexOf("specifikation"),
-          pris: headerRow.indexOf("pris"),
-          dagar: headerRow.indexOf("erbjudandet gäller antal dagar"),
-        };
+        const table = document.querySelector(".vehicle-table");
+        if (!table) return;
 
-        if (colIndex.modell === -1 || colIndex.pris === -1) {
-          alert(
-            "Excel-filen måste minst innehålla kolumnerna 'Modell' och 'Pris'. " +
-              "Använd gärna nedladdningsmallen som utgångspunkt."
-          );
+        const row = document.createElement("div");
+        row.className = "vehicle-row";
+        row.setAttribute("data-status", "unsold");
+
+        const safeSpec = spec || "Friends&Family – ny bil";
+        const safeDays = days || "0";
+
+        row.innerHTML = `
+          <div class="vehicle-thumb">
+            <img src="https://via.placeholder.com/120x70?text=Bil" alt="${model}" />
+          </div>
+          <div class="vehicle-model">
+            <span class="vehicle-model-main">${model}</span>
+            <span class="vehicle-model-sub">${safeSpec}</span>
+          </div>
+          <div class="vehicle-days">
+            <span class="days-pill" data-days="${safeDays}">${safeDays} dagar</span>
+          </div>
+          <div class="vehicle-price-cell">
+            <input
+              type="text"
+              class="price-input"
+              value="${ffPrice}"
+              data-car="${model}"
+              data-listprice="${listPrice}"
+            />
+          </div>
+          <div class="status-cell">
+            <span class="funnel-status funnel-status--unsold">Ej såld</span>
+          </div>
+          <div class="actions-cell">
+            <button class="btn btn-danger remove-btn" type="button">
+              Ta bort
+            </button>
+          </div>
+        `;
+
+        table.appendChild(row);
+        initVehicleRow(row);
+
+        console.log("Ny bil tillagd (demo):", {
+          modell: model,
+          specifikation: spec,
+          listpris: listPrice,
+          ffPris: ffPrice,
+          dagar: days
+        });
+
+        addCarForm.reset();
+        addCarForm.classList.remove("is-visible");
+      });
+    }
+
+    // Medlemsinbjudningar
+    function sendMemberInvite(email) {
+      if (!email) return;
+      const subject = "Friends&Family – inbjudan";
+      const body = [
+        "Hej!",
+        "",
+        "Du har blivit inbjuden till RN Nordics Friends&Family-program.",
+        "Använd din personliga kod för att logga in och ta del av aktuella erbjudanden.",
+        "",
+        "Vänliga hälsningar,",
+        "RN Nordic"
+      ].join("\n");
+
+      const mailtoUrl =
+        "mailto:" +
+        encodeURIComponent(email) +
+        "?subject=" +
+        encodeURIComponent(subject) +
+        "&body=" +
+        encodeURIComponent(body);
+
+      window.location.href = mailtoUrl;
+    }
+
+    document.querySelectorAll(".member-row").forEach((row) => {
+      const inviteBtn = row.querySelector(".btn-invite");
+      if (!inviteBtn) return;
+      inviteBtn.addEventListener("click", () => {
+        const email = row.getAttribute("data-email") || "";
+        sendMemberInvite(email);
+      });
+    });
+
+    const addMemberBtn = document.getElementById("addMemberBtn");
+    const newMemberEmailInput = document.getElementById("newMemberEmail");
+    const memberTableBody = document.getElementById("memberTableBody");
+
+    if (addMemberBtn && newMemberEmailInput && memberTableBody) {
+      addMemberBtn.addEventListener("click", () => {
+        const email = newMemberEmailInput.value.trim();
+        if (!email) {
+          alert("Ange en e-postadress för medlemmen.");
           return;
         }
 
-        let addedCount = 0;
+        const row = document.createElement("div");
+        row.className = "simple-row member-row";
+        row.setAttribute("data-email", email);
+        row.innerHTML = `
+          <div class="simple-cell">${email}</div>
+          <div class="simple-cell">Vän / familj</div>
+          <div class="simple-cell">
+            <button type="button" class="btn btn-ghost btn-invite">Skicka invite-kod</button>
+          </div>
+        `;
+        memberTableBody.appendChild(row);
+        newMemberEmailInput.value = "";
 
-        for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          const modell = row[colIndex.modell] || "";
-          const pris = row[colIndex.pris] || "";
-          const spec = colIndex.spec !== -1 ? row[colIndex.spec] || "" : "";
-          const dagar = colIndex.dagar !== -1 ? row[colIndex.dagar] || "" : "";
+        const inviteBtn = row.querySelector(".btn-invite");
+        inviteBtn.addEventListener("click", () => {
+          sendMemberInvite(email);
+        });
+      });
+    }
 
-          const allEmpty = [modell, pris, spec, dagar]
-            .join("")
-            .trim().length === 0;
-          if (allEmpty) continue;
-          if (!String(modell).trim() || !String(pris).trim()) continue;
+    // Återförsäljare – admin
+    const addDealerBtn = document.getElementById("addDealerBtn");
+    const newDealerNameInput = document.getElementById("newDealerName");
+    const newDealerEmailInput = document.getElementById("newDealerEmail");
+    const dealerTableBody = document.getElementById("dealerTableBody");
 
-          addVehicleRowFromData({
-            modell: String(modell),
-            spec: String(spec),
-            pris: String(pris),
-            dagar: String(dagar),
+    function hookDealerRow(row) {
+      const saveBtn = row.querySelector(".btn-save-dealer");
+      const deleteBtn = row.querySelector(".btn-remove-dealer");
+      const nameEl = row.querySelector(".dealer-name");
+      const emailInput = row.querySelector(".dealer-email-input");
+
+      if (saveBtn && emailInput && nameEl) {
+        saveBtn.addEventListener("click", () => {
+          console.log("Återförsäljare uppdaterad (demo):", {
+            dealer: nameEl.textContent.trim(),
+            email: emailInput.value.trim()
           });
-          addedCount++;
+          alert("E-postadress uppdaterad (demo).");
+        });
+      }
+
+      if (deleteBtn && nameEl) {
+        deleteBtn.addEventListener("click", () => {
+          const dealerName = nameEl.textContent.trim();
+          const confirmRemove = confirm(
+            `Ta bort återförsäljaren "${dealerName}"? (Demo – tas endast bort i vyn)`
+          );
+          if (confirmRemove) {
+            row.remove();
+          }
+        });
+      }
+    }
+
+    if (dealerTableBody) {
+      dealerTableBody.querySelectorAll(".dealer-row").forEach(hookDealerRow);
+    }
+
+    if (addDealerBtn && newDealerNameInput && newDealerEmailInput && dealerTableBody) {
+      addDealerBtn.addEventListener("click", () => {
+        const name = newDealerNameInput.value.trim();
+        const email = newDealerEmailInput.value.trim();
+        if (!name || !email) {
+          alert("Ange både namn på återförsäljare och e-postadress.");
+          return;
         }
 
-        alert(`Import klar. Antal tillagda bilar: ${addedCount}.`);
-      };
+        const row = document.createElement("div");
+        row.className = "simple-row dealer-row";
+        row.innerHTML = `
+          <div class="simple-cell dealer-name">${name}</div>
+          <div class="simple-cell">
+            <input type="email" class="dealer-email-input" value="${email}" />
+          </div>
+          <div class="simple-cell">
+            <button type="button" class="btn btn-ghost btn-save-dealer">Spara</button>
+            <button type="button" class="btn btn-danger btn-remove-dealer">Ta bort</button>
+          </div>
+        `;
+        dealerTableBody.appendChild(row);
+        hookDealerRow(row);
 
-      reader.readAsArrayBuffer(file);
-
-      // Nollställ input så att samma fil kan laddas upp igen vid behov
-      event.target.value = "";
-    }
-
-    // Koppla Excel-knapparna
-    const downloadTemplateBtn = document.getElementById("downloadTemplateBtn");
-    const exportCurrentBtn = document.getElementById("exportCurrentBtn");
-    const uploadExcelInput = document.getElementById("uploadExcelInput");
-
-    if (downloadTemplateBtn) {
-      downloadTemplateBtn.addEventListener("click", downloadExcelTemplate);
-    }
-    if (exportCurrentBtn) {
-      exportCurrentBtn.addEventListener("click", exportCurrentListToExcel);
-    }
-    if (uploadExcelInput) {
-      uploadExcelInput.addEventListener("change", handleExcelUpload);
+        newDealerNameInput.value = "";
+        newDealerEmailInput.value = "";
+      });
     }
   </script>
 </body>
