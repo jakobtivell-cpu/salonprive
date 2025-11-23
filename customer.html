@@ -191,7 +191,7 @@
       border: 1px solid var(--border-subtle);
       overflow: hidden;
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* mobile default */
       min-height: 100%;
     }
 
@@ -203,7 +203,7 @@
     .vehicle-media img {
       display: block;
       width: 100%;
-      height: 220px;
+      height: 220px; /* mobile height */
       object-fit: cover;
       filter: saturate(1.05) contrast(1.05);
       transition: transform 0.22s ease;
@@ -394,6 +394,41 @@
       color: var(--text-muted);
       text-align: left;
       opacity: 0.85;
+    }
+
+    /* ====== UPDATED LAYOUT: image left (30%), text right (70%) on desktop ====== */
+    @media (min-width: 720px) {
+      .vehicle-card {
+        flex-direction: row;
+        align-items: stretch;
+      }
+
+      .vehicle-media {
+        flex: 0 0 30%;
+        max-width: 30%;
+      }
+
+      .vehicle-body {
+        flex: 1 1 70%;
+      }
+
+      .vehicle-media img {
+        width: 100%;
+        height: 100%;
+        min-height: 220px;
+        object-fit: cover;
+      }
+    }
+
+    /* Mobile stays stacked like before */
+    @media (max-width: 719px) {
+      .vehicle-card {
+        flex-direction: column;
+      }
+
+      .vehicle-media img {
+        height: 220px;
+      }
     }
 
     /* Modal för köp/reservation */
@@ -935,7 +970,7 @@
           window.location.href = mailtoUrl;
 
           closeModal();
-          alert("Vi har skapat ett e‑postutkast till vald återförsäljare och RN Nordic.");
+          alert("Vi har skapat ett e-postutkast till vald återförsäljare och RN Nordic.");
         });
       }
     })();
